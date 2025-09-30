@@ -13,7 +13,7 @@ class LaporPerkembangan extends CI_Controller {
     //     }
     // }
 
-    public function view()
+    public function index()
     {
         $this->load->helper('url');
         $this->load->view('walikelas/lapor_perkembangan');

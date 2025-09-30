@@ -108,7 +108,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?= base_url('laporperkembangan/view') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
+                        <a href="<?= base_url('laporperkembangan') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
                             📋 <span class="ml-3">Lapor Perkembangan</span>
                         </a>
                     </li>
