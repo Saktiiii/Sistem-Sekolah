@@ -57,4 +57,12 @@ class Ortu extends CI_Controller
         $this->load->view('ortu/laporan_detail', $data);
     }
 
+    // daftar absensi
+    public function absensi()
+    {
+        $data['title'] = 'Daftar Absensi Siswa';
+        $data['absensi'] = $this->Ortu_model->get_all_absensi();
+
+        $this->load->view('ortu/absensi', $data);
+    }
 }
