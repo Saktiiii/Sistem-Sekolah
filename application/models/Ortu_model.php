@@ -28,5 +28,13 @@ class Ortu_model extends CI_Model
 
         return $siswa;
     }
+    public function get_all_absensi()
+    {
+        $this->db->select('presensi.*, siswa.nama, siswa.nis, siswa.jenis_kelamin, siswa.kelas_id');
+        $this->db->from('presensi');
+        $this->db->join('siswa', 'siswa.id = presensi.siswa_id');
+        $this->db->order_by('presensi.tanggal', 'DESC');
+        return $this->db->get()->result();
+    }
 }
 ?>
