@@ -32,53 +32,35 @@
 
 <body class="bg-gray-100 font-sans">
     <div class="flex h-screen">
-        <aside class="w-64 bg-white h-screen shadow-md flex-shrink-0">
-            <div class="p-6 flex items-center space-x-2 border-b">
-                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
-                    WM</div>
-                <span class="font-semibold text-lg text-gray-800">Wali Murid</span>
-            </div>
-            <nav class="mt-6">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="#"
-                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 ease-in-out">
-                            <i class='bx bx-dashboard text-xl'></i> <span class="ml-3">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 ease-in-out">
-                            <i class='bx bx-user text-xl'></i> <span class="ml-3">Data Siswa</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url('ortu/laporan'); ?>"
-                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 ease-in-out">
-                            <i class='bx bx-file-report text-xl'></i> <span class="ml-3">Laporan Siswa</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url('ortu/absensi'); ?>"
-                            class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600 transition duration-150 ease-in-out">
-                            <i class='bx bx-check-square text-xl'></i> <span class="ml-3">Absensi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 ease-in-out">
-                            <i class='bx bx-message text-xl'></i> <span class="ml-3">Komunikasi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 ease-in-out">
-                            <i class='bx bx-megaphone text-xl'></i> <span class="ml-3">Pengumuman</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
+    <aside class="w-64 bg-white h-screen shadow-md flex-shrink-0">
+      <div class="p-6 flex items-center space-x-2 border-b">
+        <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
+          WM</div>
+        <span class="font-semibold text-lg">Wali Murid</span>
+      </div>
+      <nav class="mt-6">
+        <ul class="space-y-2">
+          <li><a href="<?= base_url('ortu/dashboard') ?>"
+              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                class='bx bx-dashboard text-xl'></i><span class="ml-3">Dashboard</span></a></li>
+          <li><a href="<?= base_url('ortu/data_siswa') ?>"
+              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                class='bx bx-user text-xl'></i><span class="ml-3">Data Siswa</span></a></li>
+          <li><a href="<?= base_url('ortu/laporan') ?>"
+              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                class='bx bx-file-report text-xl'></i><span class="ml-3">Laporan Siswa</span></a></li>
+          <li><a href="<?= base_url('ortu/absensi') ?>"
+              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                class='bx bx-check-square text-xl'></i><span class="ml-3">Absensi</span></a></li>
+          <li><a href="<?= base_url('ortu/komunikasi') ?>"
+              class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
+                class='bx bx-message text-xl'></i><span class="ml-3">Komunikasi</span></a></li>
+          <li><a href="<?= base_url('ortu/pengumuman') ?>"
+              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
+        </ul>
+      </nav>
+    </aside>
 
         <main class="flex-1 p-6 main-scroll-area">
             <div class="container-fluid p-0">

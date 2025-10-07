@@ -12,7 +12,7 @@
     <div class="col-md-5">
       <div class="card shadow">
         <div class="card-header text-center bg-primary text-white">
-          <h4>Login Orang Tua</h4>
+          <h4>Login</h4>
         </div>
         <div class="card-body">
           <?php if($this->session->flashdata('error')): ?>

@@ -7,9 +7,9 @@ class Ortu extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if (!$this->session->userdata('logged_in') || $this->session->userdata('role') != 'ortu') {
-            redirect('auth');
-        }
+        // if (!$this->session->userdata('logged_in') || $this->session->userdata('role') != 'ortu') {
+        //     redirect('auth');
+        // }
 
         // load model
         $this->load->model('Pengumuman_model', 'pengumuman');
@@ -23,8 +23,8 @@ class Ortu extends CI_Controller
 
     public function data_siswa()
     {
-        $this->load->model('Siswa_model');
-        $data['siswa'] = $this->Siswa_model->get_all();
+        $this->load->model('Ortu_model');
+        $data['siswa'] = $this->Ortu_model->get_all();
         $this->load->view('ortu/data_siswa', $data);
     }
 
@@ -64,5 +64,43 @@ class Ortu extends CI_Controller
         $data['absensi'] = $this->Ortu_model->get_all_absensi();
 
         $this->load->view('ortu/absensi', $data);
+    }
+    // komunikasi
+    public function komunikasi($orang_tua_id = 1)
+    {
+        // Ambil data orang tua
+        $orang_tua = $this->Ortu_model->getOrangTua($orang_tua_id);
+
+        // Ambil siswa yang terkait dengan orang tua tersebut
+        $siswa = $this->Ortu_model->getSiswa($orang_tua->siswa_id);
+
+        // Ambil guru (wali kelas) berdasarkan kelas_id dari siswa
+        $guru = $this->Ortu_model->getGuru($siswa->kelas_id);
+
+        $data['orang_tua'] = $orang_tua;
+        $data['siswa'] = $siswa;
+        $data['guru'] = $guru;
+        $data['pesan'] = $this->Ortu_model->getPesan($orang_tua->id, $guru->id, $siswa->id);
+
+        $this->load->view('ortu/komunikasi', $data);
+    }
+
+    public function kirim()
+    {
+        $orang_tua_id = $this->input->post('orang_tua_id');
+        $guru_id = $this->input->post('guru_id');
+        $siswa_id = $this->input->post('siswa_id');
+        $isi = $this->input->post('isi');
+
+        $data = [
+            'orang_tua_id' => $orang_tua_id,
+            'guru_id' => $guru_id,
+            'siswa_id' => $siswa_id,
+            'pengirim' => 'orang_tua', // nanti bisa 'guru' jika guru login
+            'isi' => $isi
+        ];
+
+        $this->Ortu_model->kirimPesan($data);
+        redirect('ortu/komunikasi/' . $orang_tua_id);
     }
 }
