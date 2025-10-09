@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link		https://codeigniter.com/userguide3/database/
  */
 class CI_DB_mysqli_driver extends CI_DB {
+	public $failover = array();
 
 	/**
 	 * Database driver
