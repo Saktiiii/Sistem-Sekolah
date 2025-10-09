@@ -1,12 +1,17 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 class User_model extends CI_Model {
 
-    public function get_user($username, $password)
+    public function get_user($username)
     {
-        $this->db->where('username', $username);
-        $this->db->where('password', $password); // kalau password plain text
-        return $this->db->get('users')->row();
+        return $this->db->get_where('users', ['username' => $username])->row();
     }
+    public function get_available_siswa_users()
+{
+    $this->db->select('u.id, u.username');
+    $this->db->from('users u');
+    $this->db->where('u.role', 'siswa');
+    $this->db->where('u.id NOT IN (SELECT users_id FROM siswa)');
+    return $this->db->get()->result_array();
+}
+
 }
