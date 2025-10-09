@@ -9,4 +9,11 @@ class User_model extends CI_Model {
         $this->db->where('password', $password); // kalau password plain text
         return $this->db->get('users')->row();
     }
+    
+    public function get_by_username($username)
+    {
+        $this->db->where('username', $username);
+        return $this->db->get('users')->row();
+    }
+
 }
