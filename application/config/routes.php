@@ -224,3 +224,23 @@ CARA AKSES ROUTES:
 7. LAINNYA:
    - Sesuaikan dengan pattern di atas
 */
+//guru
+$route['guru'] = 'guru';
+$route['guru/login'] = 'guru/login';
+$route['guru/logout'] = 'guru/logout';
+$route['guru/akademik'] = 'guru/akademik';
+
+$route['guru/jadwal_api'] = 'guru/jadwal_api';
+$route['guru/siswa_by_kelas/(:num)'] = 'guru/siswa_by_kelas/$1';
+$route['guru/tambah_nilai'] = 'guru/tambah_nilai';
+$route['guru/upload_materi'] = 'guru/upload_materi';
+
+$route['guru/pengumuman'] = 'guru/pengumuman';
+$route['guru/pengumuman_list'] = 'guru/pengumuman_list';
+$route['guru/pengumuman_add'] = 'guru/pengumuman_add';
+$route['guru/pengumuman_delete/(:num)'] = 'guru/pengumuman_delete/$1';
+
+$route['guru/laporan'] = 'guru/laporan';
+$route['guru/(:any)'] = 'guru/$1';
+
+

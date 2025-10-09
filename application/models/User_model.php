@@ -13,5 +13,11 @@ class User_model extends CI_Model {
     $this->db->where('u.id NOT IN (SELECT users_id FROM siswa)');
     return $this->db->get()->result_array();
 }
+    
+    public function get_by_username($username)
+    {
+        $this->db->where('username', $username);
+        return $this->db->get('users')->row();
+    }
 
 }
