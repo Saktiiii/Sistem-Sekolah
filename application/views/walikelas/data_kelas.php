@@ -175,13 +175,13 @@ td {
             <nav class="mt-6">
                 <ul class="space-y-2">
                     <li>
-                        <a href="<?= base_url('walipengumuman/walikelas') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
+                        <a href="<?= base_url('walikelas/kirim_pengumuman') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
                             <i class="fas fa-bullhorn mr-3"></i>
                             <span>Kirim Pengumuman</span>
                         </a>
                     </li>
                     <li>
-                        <a href="<?= base_url('laporperkembangan') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
+                        <a href="<?= base_url('walikelas/lapor_perkembangan') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
                             <i class="fas fa-clipboard-list mr-3"></i>
                             <span>Lapor Perkembangan</span>
                         </a>
@@ -196,9 +196,14 @@ td {
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
+                        <a href="<?= base_url('walikelas/administrasi_kelas') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
                             <i class="fas fa-cog mr-3"></i>
                             <span>Administrasi Kelas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= base_url('walikelas/laporan') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
+                            <span class="ml-3">Laporan</span>
                         </a>
                     </li>
                 </ul>
@@ -285,9 +290,10 @@ td {
                                                 <button onclick="showStudentInfo(<?= $siswa['id'] ?>)">
                                                     <i class="fas fa-info-circle text-blue-500"></i> Info
                                                 </button>
-                                                <a href="<?= base_url('walikelas/form_edit_siswa/') ?><?= $siswa['id'] ?>">
-                                                    <i class="fas fa-edit text-yellow-500"></i> Edit
-                                                </a>
+                                                <button onclick="openEditModal(<?= $siswa['id'] ?>)">
+    <i class="fas fa-edit text-yellow-500"></i> Edit
+</button>
+
                                             </div>
                                         </div>
                                     </td>
@@ -430,12 +436,9 @@ td {
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <div class="dropdown-content">
-                                                <button onclick="showStudentInfo(<?= $absensi['id'] ?>)">
+                                                <button onclick="showPresensiInfo(<?= $absensi['id'] ?>)">
                                                     <i class="fas fa-info-circle text-blue-500"></i> Info
                                                 </button>
-                                                <a href="<?= base_url('walikelas/form_edit_siswa/') ?><?= $absensi['id'] ?>">
-                                                    <i class="fas fa-edit text-yellow-500"></i> Edit
-                                                </a>
                                             </div>
                                         </div>
                                     </td>
@@ -496,9 +499,10 @@ td {
                                                 <button onclick="showStudentInfo(<?= $siswa['id'] ?>)">
                                                     <i class="fas fa-info-circle text-blue-500"></i> Info
                                                 </button>
-                                                <a href="<?= base_url('walikelas/form_edit_siswa/') ?><?= $siswa['id'] ?>">
-                                                    <i class="fas fa-edit text-yellow-500"></i> Edit
-                                                </a>
+<button onclick="openEditModal(<?= $siswa['id'] ?>)">
+    <i class="fas fa-edit text-yellow-500"></i> Edit
+</button>
+
                                                 <button onclick="hapusSiswa(<?= $siswa['id'] ?>)">
                                                     <i class="fas fa-trash text-red-500"></i> Hapus
                                                 </button>
@@ -560,56 +564,338 @@ td {
                 </ul>
             </div>
         </aside>
+
+        <!-- Sidebar Rekap Presensi -->
+<aside id="presensiSidebar" class="w-80 bg-white shadow-md p-6 fixed top-0 right-0 h-full z-50 hidden">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Rekap Presensi Siswa</h2>
+        <button onclick="closePresensiInfo()" class="text-gray-500 hover:text-gray-700">✕</button>
     </div>
 
-    <!-- Modal Tambah Siswa -->
-<div id="tambahModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden z-50">
-    <div class="bg-white rounded-lg shadow-lg w-96 p-6">
-        <h2 class="text-lg font-semibold mb-4">Tambah Siswa</h2>
-        <form id="formTambahSiswa">
-            <div class="mb-3">
-    <label class="block text-sm font-medium text-gray-700">Pilih User</label>
-    <select name="users_id" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-        <option value="">-- Pilih User Siswa --</option>
-        <?php foreach ($available_users as $u): ?>
+    <div class="flex flex-col items-center">
+        <div id="presensiAvatar" class="w-20 h-20 rounded-full bg-green-500 flex items-center justify-center text-white text-2xl font-bold"></div>
+        <h2 id="presensiName" class="mt-2 font-semibold text-lg"></h2>
+        <p id="presensiNis" class="text-gray-500 text-sm"></p>
+    </div>
+
+    <div class="mt-6">
+        <h3 class="text-gray-600 font-semibold mb-2">Rekap Kehadiran</h3>
+        <ul class="text-sm text-gray-700 space-y-1">
+            <li>Total Pertemuan: <span id="totalPertemuan" class="font-semibold text-gray-800"></span></li>
+            <li>Hadir: <span id="hadirCount" class="font-semibold text-green-600"></span></li>
+            <li>Izin: <span id="izinCount" class="font-semibold text-yellow-600"></span></li>
+            <li>Sakit: <span id="sakitCount" class="font-semibold text-blue-600"></span></li>
+            <li>Alpha: <span id="alphaCount" class="font-semibold text-red-600"></span></li>
+        </ul>
+    </div>
+</aside>
+
+    </div>
+
+<!-- Modal Tambah Siswa -->
+<div id="tambahModal" class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center hidden z-50 transition-all duration-200">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform scale-95 transition-all duration-300 p-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center border-b pb-3 mb-4">
+      <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+        <i class="fas fa-user-plus text-indigo-500"></i> Tambah Siswa
+      </h2>
+      <button type="button" onclick="closeTambahModal()" class="text-gray-400 hover:text-gray-600 transition">
+        <i class="fas fa-times text-lg"></i>
+      </button>
+    </div>
+
+    <form id="formTambahSiswa" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Pilih User</label>
+        <select name="users_id" required
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+          <option value="">-- Pilih User Siswa --</option>
+          <?php foreach ($available_users as $u): ?>
             <option value="<?= $u['id'] ?>"><?= $u['username'] ?></option>
-        <?php endforeach; ?>
-    </select>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
+          <input type="text" name="nama" required
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">NIS</label>
+          <input type="text" name="nis" required
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+        <input type="text" name="alamat"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Telepon</label>
+          <input type="text" name="telepon"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+          <select name="jenis_kelamin"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+            <option value="L">Laki-laki</option>
+            <option value="P">Perempuan</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t">
+        <button type="button" onclick="closeTambahModal()"
+          class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg text-sm transition font-medium">
+          Batal
+        </button>
+        <button type="submit"
+          class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm transition font-medium shadow-md">
+          Simpan
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700">Nama</label>
-                <input type="text" name="nama" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700">NIS</label>
-                <input type="text" name="nis" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700">Alamat</label>
-                <input type="text" name="alamat" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700">Telepon</label>
-                <input type="text" name="telepon" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
-                <select name="jenis_kelamin" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-                    <option value="L">Laki-laki</option>
-                    <option value="P">Perempuan</option>
-                </select>
-            </div>
-            <div class="flex justify-end space-x-2 mt-4">
-                <button type="button" onclick="closeTambahModal()" class="bg-gray-300 px-4 py-2 rounded text-sm">Batal</button>
-                <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded text-sm">Simpan</button>
-            </div>
-        </form>
+<!-- Modal Edit Absensi -->
+<div id="absensiModal" class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center hidden z-50 transition-all duration-200">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform scale-95 transition-all duration-300 p-6">
+    <div class="flex justify-between items-center border-b pb-3 mb-4">
+      <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+        <i class="fas fa-clipboard-list text-indigo-500"></i> Edit Absensi
+      </h2>
+      <button type="button" onclick="closeAbsensiModal()" class="text-gray-400 hover:text-gray-600 transition">
+        <i class="fas fa-times text-lg"></i>
+      </button>
     </div>
+
+    <form id="formEditAbsensi" class="space-y-4">
+      <input type="hidden" name="id" id="absensi_id">
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Siswa</label>
+        <input type="text" id="absensi_nama" disabled
+          class="w-full border border-gray-300 bg-gray-100 rounded-lg px-3 py-2 text-sm text-gray-700">
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Total Pertemuan</label>
+          <input type="number" name="total_pertemuan" id="absensi_total"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Hadir</label>
+          <input type="number" name="hadir" id="absensi_hadir"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Izin</label>
+          <input type="number" name="izin" id="absensi_izin"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Sakit</label>
+          <input type="number" name="sakit" id="absensi_sakit"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Alpha</label>
+          <input type="number" name="alpha" id="absensi_alpha"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t">
+        <button type="button" onclick="closeAbsensiModal()"
+          class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg text-sm transition font-medium">
+          Batal
+        </button>
+        <button type="submit"
+          class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm transition font-medium shadow-md">
+          Simpan
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Detail Absensi -->
+<div id="absensiModal" class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center hidden z-50 transition-all duration-200">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform scale-95 transition-all duration-300 p-6">
+    <div class="flex justify-between items-center border-b pb-3 mb-4">
+      <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+        <i class="fas fa-clipboard-list text-indigo-500"></i> Detail Absensi
+      </h2>
+      <button type="button" onclick="closeAbsensiModal()" class="text-gray-400 hover:text-gray-600 transition">
+        <i class="fas fa-times text-lg"></i>
+      </button>
+    </div>
+
+    <form class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Siswa</label>
+        <input type="text" id="absensi_nama" disabled
+          class="w-full border border-gray-300 bg-gray-100 rounded-lg px-3 py-2 text-sm text-gray-700">
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Total Pertemuan</label>
+          <input type="text" id="absensi_total" disabled
+            class="w-full border border-gray-300 bg-gray-100 rounded-lg px-3 py-2 text-sm text-gray-700">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Hadir</label>
+          <input type="text" id="absensi_hadir" disabled
+            class="w-full border border-gray-300 bg-gray-100 rounded-lg px-3 py-2 text-sm text-gray-700">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Izin</label>
+          <input type="text" id="absensi_izin" disabled
+            class="w-full border border-gray-300 bg-gray-100 rounded-lg px-3 py-2 text-sm text-gray-700">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Sakit</label>
+          <input type="text" id="absensi_sakit" disabled
+            class="w-full border border-gray-300 bg-gray-100 rounded-lg px-3 py-2 text-sm text-gray-700">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Alpha</label>
+          <input type="text" id="absensi_alpha" disabled
+            class="w-full border border-gray-300 bg-gray-100 rounded-lg px-3 py-2 text-sm text-gray-700">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
+        <textarea id="absensi_keterangan" rows="2" disabled
+          class="w-full border border-gray-300 bg-gray-100 rounded-lg px-3 py-2 text-sm text-gray-700 resize-none"></textarea>
+      </div>
+
+      <div class="flex justify-end pt-4 border-t">
+        <button type="button" onclick="closeAbsensiModal()"
+          class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm transition font-medium shadow-md">
+          Tutup
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
 
     <script>
+
+        function showPresensiInfo(id) {
+    fetch(`<?= base_url('walikelas/get_detail_siswa/') ?>${id}`)
+        .then(response => response.json())
+        .then(result => {
+            if (result.success && result.data.siswa) {
+                const s = result.data.siswa;
+
+                // Tampilkan sidebar presensi
+                document.getElementById('presensiSidebar').classList.remove('hidden');
+
+                // Isi nama dan avatar
+                document.getElementById('presensiAvatar').textContent = s.nama.charAt(0).toUpperCase();
+                document.getElementById('presensiName').textContent = s.nama;
+                document.getElementById('presensiNis').textContent = 'NIS: ' + (s.nis || '-');
+
+                // Ambil rekap absensi
+                fetch(`<?= base_url('walikelas/get_rekap_absensi_by_siswa/') ?>${id}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('totalPertemuan').textContent = data.data.total_pertemuan || 0;
+                            document.getElementById('hadirCount').textContent = data.data.hadir || 0;
+                            document.getElementById('izinCount').textContent = data.data.izin || 0;
+                            document.getElementById('sakitCount').textContent = data.data.sakit || 0;
+                            document.getElementById('alphaCount').textContent = data.data.alpha || 0;
+                        }
+                    });
+            }
+        });
+}
+
+// Tutup modal presensi
+function closePresensiInfo() {
+    document.getElementById('presensiSidebar').classList.add('hidden');
+}
+function openAbsensiModal(id) {
+    axios.get('<?= base_url('walikelas/get_detail_siswa/') ?>' + id)
+        .then(res => {
+            if (res.data.success) {
+                const s = res.data.data.siswa;
+                const a = res.data.data.absensi || {};
+
+                document.getElementById('absensi_id').value = s.id;
+                document.getElementById('absensi_nama').value = s.nama;
+                document.getElementById('absensi_total').value = a.total_pertemuan || 0;
+                document.getElementById('absensi_hadir').value = a.hadir || 0;
+                document.getElementById('absensi_izin').value = a.izin || 0;
+                document.getElementById('absensi_sakit').value = a.sakit || 0;
+                document.getElementById('absensi_alpha').value = a.alpha || 0;
+
+                document.getElementById('absensiModal').classList.remove('hidden');
+            } else {
+                alert('Data absensi tidak ditemukan');
+            }
+        })
+        .catch(() => alert('Gagal mengambil data absensi'));
+}
+
+function closeAbsensiModal() {
+    document.getElementById('absensiModal').classList.add('hidden');
+}
+
+document.getElementById('formEditAbsensi').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    try {
+        const res = await axios.post('<?= base_url('walikelas/update_absensi') ?>', formData);
+        if (res.data.success) {
+            alert('Data absensi berhasil diperbarui');
+            location.reload();
+        } else {
+            alert(res.data.message || 'Gagal memperbarui absensi');
+        }
+    } catch (err) {
+        alert('Terjadi kesalahan saat menyimpan data');
+        console.error(err);
+    }
+});
+
+
+        document.addEventListener('click', function(e) {
+    const tambahModal = document.getElementById('tambahModal');
+    const editModal = document.getElementById('editModal');
+    
+    // Kalau modal tambah sedang terbuka dan klik di luar isinya
+    if (!tambahModal.classList.contains('hidden') && !e.target.closest('.bg-white')) {
+        tambahModal.classList.add('hidden');
+    }
+
+    // Kalau modal edit sedang terbuka dan klik di luar isinya
+    if (!editModal.classList.contains('hidden') && !e.target.closest('.bg-white')) {
+        editModal.classList.add('hidden');
+    }
+});
         // Fungsi untuk mengelola dropdown
         document.addEventListener('DOMContentLoaded', function() {
             // Menutup dropdown saat klik di luar
@@ -740,9 +1026,48 @@ document.getElementById('formTambahSiswa').addEventListener('submit', async func
 
        
         
-        function editSiswa(id) {
-            window.location.href = '<?= base_url('walikelas/form_edit_siswa/') ?>' + id;
+// === Modal Edit Siswa ===
+function openEditModal(id) {
+    axios.get('<?= base_url('walikelas/get_siswa/') ?>' + id)
+        .then(res => {
+            if (res.data.success) {
+                const s = res.data.data;
+                document.getElementById('edit_id').value = s.id;
+                document.getElementById('edit_nama').value = s.nama;
+                document.getElementById('edit_nis').value = s.nis;
+                document.getElementById('edit_alamat').value = s.alamat || '';
+                document.getElementById('edit_telepon').value = s.telepon || '';
+                document.getElementById('edit_jenis_kelamin').value = s.jenis_kelamin || 'L';
+                document.getElementById('editModal').classList.remove('hidden');
+            } else {
+                alert('Data siswa tidak ditemukan');
+            }
+        })
+        .catch(() => alert('Gagal mengambil data siswa'));
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').classList.add('hidden');
+}
+
+document.getElementById('formEditSiswa').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    try {
+        const res = await axios.post('<?= base_url('walikelas/update_siswa') ?>', formData);
+        if (res.data.success) {
+            alert('Data siswa berhasil diperbarui');
+            location.reload();
+        } else {
+            alert('Gagal memperbarui data');
         }
+    } catch (err) {
+        alert('Terjadi kesalahan saat menyimpan perubahan');
+        console.error(err);
+    }
+});
+
         
         function beriPeringatan(id) {
             window.location.href = '<?= base_url('walikelas/form_beri_peringatan/') ?>' + id;

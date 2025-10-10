@@ -302,42 +302,38 @@
                 <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">WK</div>
                 <span class="font-semibold text-lg">Wali Kelas</span>
             </div>
-            <nav class="mt-6">
+<nav class="mt-6">
                 <ul class="space-y-2">
                     <li>
-                        <a href="kirim-pengumuman.html" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
-                            📢 <span class="ml-3">Kirim Pengumuman</span>
+                        <a href="<?= base_url('walikelas/kirim_pengumuman') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
+                            <i class="fas fa-bullhorn mr-3"></i>
+                            <span>Kirim Pengumuman</span>
                         </a>
                     </li>
                     <li>
-                        <a href="laporan-perkembangan.html" class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium">
-                            📋 <span class="ml-3">Lapor Perkembangan</span>
+                        <a href="<?= base_url('walikelas/lapor_perkembangan') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
+                            <i class="fas fa-clipboard-list mr-3"></i>
+                            <span>Lapor Perkembangan</span>
                         </a>
                     </li>
                     <li class="mt-4">
                         <span class="px-6 text-gray-400 uppercase text-xs">Kelas</span>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
-                            📚 <span class="ml-3">Data Kelas</span>
+                        <a href="<?= base_url('walikelas/data_kelas') ?>" class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium">
+                            <i class="fas fa-book mr-3"></i>
+                            <span>Data Kelas</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
-                            ⚙️ <span class="ml-3">Administrasi Kelas</span>
-                        </a>
-                    </li>
-                    <li class="mt-4">
-                        <span class="px-6 text-gray-400 uppercase text-xs">Laporan</span>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
-                            📊 <span class="ml-3">Statistik Kelas</span>
+                        <a href="<?= base_url('walikelas/administrasi_kelas') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
+                            <i class="fas fa-cog mr-3"></i>
+                            <span>Administrasi Kelas</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
-                            📝 <span class="ml-3">Laporan Bulanan</span>
+                        <a href="<?= base_url('walikelas/laporan') ?>" class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
+                            <span class="ml-3">Laporan</span>
                         </a>
                     </li>
                 </ul>

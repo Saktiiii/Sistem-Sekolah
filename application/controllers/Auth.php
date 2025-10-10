@@ -10,10 +10,9 @@ class Auth extends CI_Controller {
         $this->load->library('session');
     }
 
-    // Halaman login
     public function index()
     {
-        // Jika sudah login, arahkan ke dashboard sesuai role
+        // Jika sudah login arahkan sesuai role
         if ($this->session->userdata('logged_in')) {
             $this->_redirect_by_role($this->session->userdata('role'));
             return;
@@ -22,40 +21,40 @@ class Auth extends CI_Controller {
         $this->load->view('auth/login');
     }
 
-    // Proses login
     public function login()
     {
         $username = $this->input->post('username', TRUE);
-        $password = $this->input->post('password', TRUE);
+        $password = md5($this->input->post('password', TRUE)); // pakai md5
 
-        // Ambil data user berdasarkan username
         $user = $this->User_model->get_user($username);
 
-        if ($user) {
-            // Cek apakah password cocok (bcrypt atau md5)
-            if (password_verify($password, $user->password) || $user->password === md5($password)) {
+        // Cek user dan password md5
+        if ($user && $user->password === $password) {
 
-                // Simpan data session
-                $this->session->set_userdata([
-                    'user_id'   => $user->id,
-                        'guru_id'   => $user->id, // penting untuk akses wali kelas
-                    'username'  => $user->username,
-                    'role'      => $user->role,
-                    'logged_in' => TRUE
-                ]);
+            // Set session umum
+            $this->session->set_userdata([
+                'users_id'   => $user->id,
+                'username'  => $user->username,
+                'role'      => $user->role,
+                'logged_in' => TRUE
+            ]);
 
-                // Arahkan ke dashboard sesuai role
-                $this->_redirect_by_role($user->role);
-                return;
+            // Kalau guru, simpan juga guru_id
+            if ($user->role === 'guru') {
+                $this->load->database();
+                $guru = $this->db->get_where('guru', ['users_id' => $user->id])->row();
+                if ($guru) {
+                    $this->session->set_userdata('guru_id', $guru->id);
+                }
             }
-        }
 
-        // Jika gagal
-        $this->session->set_flashdata('error', 'Username atau password salah.');
-        redirect('auth');
+            $this->_redirect_by_role($user->role);
+        } else {
+            $this->session->set_flashdata('error', 'Username atau password salah.');
+            redirect('auth');
+        }
     }
 
-    // Arahkan user sesuai role
     private function _redirect_by_role($role)
     {
         switch ($role) {
@@ -68,13 +67,14 @@ class Auth extends CI_Controller {
             case 'ortu':
                 redirect('ortu/dashboard');
                 break;
+            case 'siswa':
+                redirect('siswa/dashboard');
+                break;
             default:
                 $this->logout();
-                break;
         }
     }
 
-    // Logout
     public function logout()
     {
         $this->session->sess_destroy();
