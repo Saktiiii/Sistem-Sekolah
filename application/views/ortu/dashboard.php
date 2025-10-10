@@ -2,161 +2,164 @@
 <html lang="id">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wali Murid - Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wali Murid - Dashboard</title>
 
-  <!-- Bootstrap & Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    .card {
-      border-radius: 0.75rem !important;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-        0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
+    <style>
+        .card {
+            border-radius: 0.75rem !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
 
-    .main-scroll-area {
-      height: 100vh;
-      overflow-y: auto;
-    }
+        .main-scroll-area {
+            height: 100vh;
+            overflow-y: auto;
+        }
 
-    .h-screen {
-      height: 100vh !important;
-    }
-  </style>
+        .h-screen {
+            height: 100vh !important;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 font-sans">
 
-  <div class="flex h-screen">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white h-screen shadow-md flex-shrink-0">
-      <div class="p-6 flex items-center space-x-2 border-b">
-        <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
-          WM</div>
-        <span class="font-semibold text-lg">Wali Murid</span>
-      </div>
-      <nav class="mt-6">
-        <ul class="space-y-2">
-          <li><a href="<?= base_url('ortu/dashboard') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-dashboard text-xl'></i><span class="ml-3">Dashboard</span></a></li>
-          <li><a href="<?= base_url('ortu/data_siswa') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-user text-xl'></i><span class="ml-3">Data Siswa</span></a></li>
-          <li><a href="<?= base_url('ortu/laporan') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-file-report text-xl'></i><span class="ml-3">Laporan Siswa</span></a></li>
-          <li><a href="<?= base_url('ortu/absensi') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-check-square text-xl'></i><span class="ml-3">Absensi</span></a></li>
-          <li><a href="<?= base_url('ortu/komunikasi') ?>"
-              class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
-                class='bx bx-message text-xl'></i><span class="ml-3">Komunikasi</span></a></li>
-          <li><a href="<?= base_url('ortu/pengumuman') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
-        </ul>
-      </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-6 main-scroll-area">
-      <div class="container-fluid p-0">
-        <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-2xl p-6 mb-6 shadow-md">
-          <h2 class="text-3xl font-semibold">Selamat Datang, Orang Tua/Wali</h2>
-          <p class="text-indigo-100 mt-2">Anda dapat memantau perkembangan siswa melalui dashboard ini.</p>
-        </div>
-
-        <!-- Statistik -->
-        <div class="row g-4 mb-5">
-          <div class="col-md-3">
-            <div class="card border-start border-4 border-indigo-500">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <h6 class="text-muted mb-1">Peringkat</h6>
-                  <i class='bx bx-trophy text-indigo-500 text-2xl'></i>
-                </div>
-                <h2 class="fw-bold text-3xl text-indigo-700">36</h2>
-              </div>
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white h-screen shadow-md flex-shrink-0">
+            <div class="p-6 flex items-center space-x-2 border-b">
+                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
+                    WM</div>
+                <span class="font-semibold text-lg">Wali Murid</span>
             </div>
-          </div>
+            <nav class="mt-6">
+                <ul class="space-y-2">
+                    <li><a href="<?= base_url('ortu/dashboard') ?>"
+                            class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
+                                class='bx bx-dashboard text-xl'></i><span class="ml-3">Dashboard</span></a></li>
+                    <li><a href="<?= base_url('ortu/data_siswa') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-user text-xl'></i><span class="ml-3">Data Siswa</span></a></li>
+                    <li><a href="<?= base_url('ortu/laporan') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-file-report text-xl'></i><span class="ml-3">Laporan Siswa</span></a></li>
+                    <li><a href="<?= base_url('ortu/absensi') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-check-square text-xl'></i><span class="ml-3">Absensi</span></a></li>
+                    <li><a href="<?= base_url('ortu/komunikasi') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-message text-xl'></i><span class="ml-3">Komunikasi</span></a></li>
+                    <li><a href="<?= base_url('ortu/pengumuman') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
+                    <li><a href="<?= base_url('auth/logout') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Logout</span></a></li>
+                </ul>
+            </nav>
+        </aside>
 
-          <div class="col-md-3">
-            <div class="card border-start border-4 border-red-500">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <h6 class="text-muted mb-1">Pelanggaran</h6>
-                  <i class='bx bx-error text-red-500 text-2xl'></i>
+        <!-- Main Content -->
+        <main class="flex-1 p-6 main-scroll-area">
+            <div class="container-fluid p-0">
+                <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-2xl p-6 mb-6 shadow-md">
+                    <h2 class="text-3xl font-semibold">Selamat Datang, Orang Tua/Wali</h2>
+                    <p class="text-indigo-100 mt-2">Anda dapat memantau perkembangan siswa melalui dashboard ini.</p>
                 </div>
-                <h2 class="fw-bold text-3xl text-red-600">3</h2>
-              </div>
-            </div>
-          </div>
 
-          <div class="col-md-3">
-            <div class="card border-start border-4 border-amber-500">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <h6 class="text-muted mb-1">Absen</h6>
-                  <i class='bx bx-calendar-x text-amber-500 text-2xl'></i>
+                <!-- Statistik -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-3">
+                        <div class="card border-start border-4 border-indigo-500">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="text-muted mb-1">Peringkat</h6>
+                                    <i class='bx bx-trophy text-indigo-500 text-2xl'></i>
+                                </div>
+                                <h2 class="fw-bold text-3xl text-indigo-700">36</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card border-start border-4 border-red-500">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="text-muted mb-1">Pelanggaran</h6>
+                                    <i class='bx bx-error text-red-500 text-2xl'></i>
+                                </div>
+                                <h2 class="fw-bold text-3xl text-red-600">3</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card border-start border-4 border-amber-500">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="text-muted mb-1">Absen</h6>
+                                    <i class='bx bx-calendar-x text-amber-500 text-2xl'></i>
+                                </div>
+                                <h2 class="fw-bold text-3xl text-amber-600">10</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card border-start border-4 border-green-500">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="text-muted mb-1">Total Nilai</h6>
+                                    <i class='bx bx-bar-chart-alt text-green-500 text-2xl'></i>
+                                </div>
+                                <h2 class="fw-bold text-3xl text-green-600">83</h2>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h2 class="fw-bold text-3xl text-amber-600">10</h2>
-              </div>
-            </div>
-          </div>
 
-          <div class="col-md-3">
-            <div class="card border-start border-4 border-green-500">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <h6 class="text-muted mb-1">Total Nilai</h6>
-                  <i class='bx bx-bar-chart-alt text-green-500 text-2xl'></i>
+                <!-- Ringkasan Siswa -->
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-indigo-600 text-white fw-bold">
+                        <i class="bi bi-person-lines-fill me-2"></i> Ringkasan Siswa
+                    </div>
+                    <div class="card-body bg-white">
+                        <table class="table table-bordered align-middle mb-0">
+                            <tr>
+                                <th>Nama</th>
+                                <td>Jhon Smith</td>
+                            </tr>
+                            <tr>
+                                <th>Kelas</th>
+                                <td>XII RPL B</td>
+                            </tr>
+                            <tr>
+                                <th>Jurusan</th>
+                                <td>Rekayasa Perangkat Lunak</td>
+                            </tr>
+                            <tr>
+                                <th>Jenis Kelamin</th>
+                                <td><span class="badge bg-success">L</span></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                <h2 class="fw-bold text-3xl text-green-600">83</h2>
-              </div>
+
             </div>
-          </div>
-        </div>
+        </main>
 
-        <!-- Ringkasan Siswa -->
-        <div class="card border-0 shadow-lg">
-          <div class="card-header bg-indigo-600 text-white fw-bold">
-            <i class="bi bi-person-lines-fill me-2"></i> Ringkasan Siswa
-          </div>
-          <div class="card-body bg-white">
-            <table class="table table-bordered align-middle mb-0">
-              <tr>
-                <th>Nama</th>
-                <td>Jhon Smith</td>
-              </tr>
-              <tr>
-                <th>Kelas</th>
-                <td>XII RPL B</td>
-              </tr>
-              <tr>
-                <th>Jurusan</th>
-                <td>Rekayasa Perangkat Lunak</td>
-              </tr>
-              <tr>
-                <th>Jenis Kelamin</th>
-                <td><span class="badge bg-success">L</span></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </main>
-
-    <!-- Aside (profil siswa) -->
+        <!-- Aside (profil siswa) -->
         <aside class="w-80 bg-white h-screen shadow-md p-6 flex-shrink-0 overflow-y-auto">
             <div class="flex flex-col items-center border-b pb-4 mb-4">
                 <img src="<?= base_url('assets/profile1.jpg'); ?>"
@@ -202,7 +205,7 @@
                 </ul>
             </div>
         </aside>
-  </div>
+    </div>
 
 </body>
 

@@ -63,6 +63,9 @@
                     <li><a href="<?= base_url('ortu/pengumuman') ?>"
                             class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
+                    <li><a href="<?= base_url('auth/logout') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Logout</span></a></li>
                 </ul>
             </nav>
         </aside>

@@ -28,12 +28,12 @@ class Ortu extends CI_Controller
         $this->load->view('ortu/data_siswa', $data);
     }
 
-    public function pengumuman()
-    {
-        // panggil alias 'pengumuman'
-        $data['pengumuman'] = $this->pengumuman->get_all();
-        $this->load->view('ortu/pengumuman', $data);
-    }
+    // public function get_pengumuman()
+    // {
+    //     // panggil alias 'pengumuman'
+    //     $data['pengumuman'] = $this->pengumuman->get_all();
+    //     $this->load->view('ortu/pengumuman', $data);
+    // }
 
     public function logout()
     {
@@ -103,4 +103,34 @@ class Ortu extends CI_Controller
         $this->Ortu_model->kirimPesan($data);
         redirect('ortu/komunikasi/' . $orang_tua_id);
     }
+    public function pengumuman()
+    {
+        // Ambil ID user yang sedang login
+        $user_id = $this->session->userdata('user_id');
+
+        // Ambil data orang tua berdasarkan user_id
+        $orang_tua = $this->Ortu_model->get_by_user($user_id);
+
+        // Pastikan data orang tua ditemukan
+        if (!$orang_tua) {
+            show_error('Data orang tua tidak ditemukan.');
+            return;
+        }
+
+        // Ambil data wali kelas berdasarkan id_ortu
+        $guru = $this->Ortu_model->get_wali_kelas($orang_tua->id);
+
+        // Ambil data pengumuman
+        $pengumuman = $this->Ortu_model->get_pengumuman();
+
+        // Kirim semua data ke view
+        $data = [
+            'orang_tua' => $orang_tua,
+            'guru' => $guru,
+            'pengumuman' => $pengumuman
+        ];
+
+        $this->load->view('ortu/pengumuman', $data);
+    }
+
 }

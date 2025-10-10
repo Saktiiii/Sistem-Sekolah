@@ -55,6 +55,9 @@
                     <li><a href="<?= base_url('ortu/pengumuman') ?>"
                             class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
+                    <li><a href="<?= base_url('auth/logout') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Logout</span></a></li>
                 </ul>
             </nav>
         </aside>
@@ -72,7 +75,8 @@
                             <p class="mb-0"><?= htmlspecialchars($guru->nama) ?> <span
                                     class="text-gray-500">(<?= $guru->email ?>)</span></p>
                             <p class="text-sm text-gray-500 mb-0"><?= htmlspecialchars($guru->telepon) ?> •
-                                <?= htmlspecialchars($guru->alamat) ?></p>
+                                <?= htmlspecialchars($guru->alamat) ?>
+                            </p>
                         </div>
                         <div class="text-end">
                             <h6 class="text-gray-600 mb-1">Orang Tua</h6>
@@ -118,7 +122,7 @@
                     </div>
 
                     <!-- Form kirim -->
-                    <form action="<?= base_url('ortu/komunikasi/kirim') ?>" method="post"
+                    <form action="<?= base_url('ortu/kirim') ?>" method="post"
                         class="border-t p-3 flex items-center space-x-2">
                         <input type="hidden" name="orang_tua_id" value="<?= $orang_tua->id ?>">
                         <input type="hidden" name="guru_id" value="<?= $guru->id ?>">
