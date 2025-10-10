@@ -298,6 +298,10 @@
     </style>
 </head>
 <body>
+<div id="notifBox" 
+     class="fixed top-6 right-6 hidden transition-all duration-500 transform opacity-0 translate-y-[-10px] text-white font-medium rounded-md shadow-lg z-[9999]">
+</div>
+
     <div class="sidebar-container">
         <!-- Sidebar -->
         <aside class="w-64 bg-white shadow-md sidebar">
@@ -393,19 +397,139 @@
         <div class="section-header">
             <h2 class="section-title">Jadwal Pelajaran</h2>
             <div class="flex space-x-2">
+<form method="get" action="<?= base_url('walikelas/administrasi_kelas') ?>" class="flex space-x-2">
+<select class="filter-btn" onchange="window.location.href='?hari=' + this.value">
+    <option disabled selected>Pilih Hari</option>
+    <option value="Senin" <?= ($hari_terpilih == 'Senin') ? 'selected' : '' ?>>Senin</option>
+    <option value="Selasa" <?= ($hari_terpilih == 'Selasa') ? 'selected' : '' ?>>Selasa</option>
+    <option value="Rabu" <?= ($hari_terpilih == 'Rabu') ? 'selected' : '' ?>>Rabu</option>
+    <option value="Kamis" <?= ($hari_terpilih == 'Kamis') ? 'selected' : '' ?>>Kamis</option>
+    <option value="Jumat" <?= ($hari_terpilih == 'Jumat') ? 'selected' : '' ?>>Jumat</option>
+</select>
+
+
+            <button type="button" 
+                    class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 transition flex items-center"
+                    onclick="openModal('modalTambah')">
+                <i class="fas fa-plus mr-2"></i>Tambah
+            </button>
+<button type="button" 
+    class="bg-yellow-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-yellow-600 transition flex items-center"
+    onclick="openEditModal('<?= base_url('walikelas/get_jadwal_by_hari') ?>', '<?= $hari_terpilih ?>', <?= $kelas['id'] ?>)">
+    <i class="fas fa-edit mr-2"></i>Edit
+</button>
+
+</form>
+
+            </div>
+        </div>
+
+        <div class="flex gap-6 mt-6">
+            <!-- Left Side - Statistics -->
+            <?php
+// Hitung total durasi semua jadwal hari terpilih
+$total_detik = 0;
+$total_mapel = count($jadwal);
+$guru_unik = [];
+
+foreach ($jadwal as $j) {
+    $mulai = strtotime($j['jam_mulai']);
+    $selesai = strtotime($j['jam_selesai']);
+    $selisih = $selesai - $mulai;
+    $total_detik += $selisih;
+
+    if (!empty($j['guru'])) {
+        $guru_unik[$j['guru']] = true;
+    }
+}
+
+// Konversi total durasi ke jam & menit
+$total_jam = floor($total_detik / 3600);
+$total_menit = floor(($total_detik % 3600) / 60);
+
+// Format ke bentuk jam.menit (misal 2.30 jam)
+$total_durasi = $total_jam . '.' . str_pad($total_menit, 2, '0', STR_PAD_LEFT);
+
+// Hitung total guru unik
+$total_guru = count($guru_unik);
+?>
+
+<div class="flex flex-col gap-4" style="min-width: 200px;">
+    <div class="stat-card">
+        <div class="stat-number"><?= $total_durasi ?></div>
+        <div class="stat-label">Jam Pelajaran</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number"><?= $total_mapel ?></div>
+        <div class="stat-label">Mata Pelajaran</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number"><?= $total_guru ?></div>
+        <div class="stat-label">Guru</div>
+    </div>
+</div>
+
+
+            <!-- Right Side - Schedule Grid -->
+            <div class="flex-1">
+                <!-- Jadwal Pagi -->
+                <div class="mb-6">
+                    <div class="grid grid-cols-1 gap-4">
+                        <?php foreach ($jadwal as $j): ?>
+    <div class="schedule-item pelajaran">
+        <div class="flex-1 p-4 flex items-center gap-4">
+            <div class="text-center" style="min-width: 100px;">
+                <div class="text-2xl font-bold text-gray-800"><?= $j['id'] ?></div>
+                <div class="text-xs text-gray-500">Jam Pelajaran</div>
+            </div>
+            <div class="bg-gray-100 rounded px-4 py-2 text-center" style="min-width: 120px;">
+                <div class="font-semibold text-sm text-gray-800">
+                    <?= $j['jam_mulai'] ?> - <?= $j['jam_selesai'] ?>
+                </div>
+<?php
+$mulai = strtotime($j['jam_mulai']);
+$selesai = strtotime($j['jam_selesai']);
+$selisih = $selesai - $mulai;
+
+$jam = floor($selisih / 3600);
+$menit = floor(($selisih % 3600) / 60);
+
+$durasi_format = $jam . '.' . str_pad($menit, 2, '0', STR_PAD_LEFT);
+?>
+<?= $durasi_format ?> jam
+
+
+
+            </div>
+            <div class="flex-1 text-left">
+                <div class="font-medium text-gray-800"><?= $j['mata_pelajaran'] ?></div>
+                <div class="text-sm text-gray-600"><?= $j['guru'] ?></div>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Jadwal Piket Tab -->
+<div class="tab-content" id="piket-tab">
+    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm">
+        <div class="section-header">
+            <h2 class="section-title">Jadwal Piket</h2>
+            <div class="flex space-x-2">
                 <select class="filter-btn">
-                    <option>Hari</option>
-                    <option>Senin</option>
-                    <option>Selasa</option>
-                    <option>Rabu</option>
-                    <option>Kamis</option>
-                    <option>Jumat</option>
+                    <option>Minggu Ini</option>
+                    <option>Minggu Depan</option>
                 </select>
-                <select class="filter-btn">
-                    <option>Selasa</option>
-                </select>
-                <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 transition flex items-center">
-                    <i class="fas fa-plus mr-2"></i>Tambah
+                <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-600 transition flex items-center">
+                    <i class="fas fa-plus mr-2"></i>Tambah Piket
                 </button>
             </div>
         </div>
@@ -414,74 +538,435 @@
             <!-- Left Side - Statistics -->
             <div class="flex flex-col gap-4" style="min-width: 200px;">
                 <div class="stat-card">
-                    <div class="stat-number">2</div>
-                    <div class="stat-label">Jam Pelajaran</div>
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Jumlah Siswa</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">2</div>
-                    <div class="stat-label">Mata Pelajaran</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">2</div>
-                    <div class="stat-label">Guru</div>
+                
+                <!-- Area Piket Switch -->
+                <div class="area-switch mt-4">
+                    <div class="bg-gray-100 rounded-lg p-1 flex">
+                        <button class="area-btn active flex-1 py-2 px-3 rounded-md text-sm font-medium transition" data-area="kelas">
+                            Kelas
+                        </button>
+                        <button class="area-btn flex-1 py-2 px-3 rounded-md text-sm font-medium transition" data-area="lab">
+                            Lab
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Right Side - Schedule Grid -->
+            <!-- Right Side - Piket Grid -->
             <div class="flex-1">
-                <!-- Jadwal Pagi -->
-                <div class="mb-6">
-                    <div class="grid grid-cols-1 gap-4">
-                        <!-- Schedule Item 1 -->
-                        <div class="schedule-item pelajaran">
-                            <div class="flex-1 p-4 flex items-center gap-4">
-                                <div class="text-center" style="min-width: 100px;">
-                                    <div class="text-2xl font-bold text-gray-800">1</div>
-                                    <div class="text-xs text-gray-500">Jam Pelajaran</div>
-                                </div>
-                                <div class="bg-gray-100 rounded px-4 py-2 text-center" style="min-width: 120px;">
-                                    <div class="font-semibold text-sm text-gray-800">07:00-07:45</div>
-                                    <div class="text-xs text-gray-600">45 Menit</div>
-                                </div>
-                                <div class="flex-1 text-left">
-                                    <div class="font-medium text-gray-800">Literasi</div>
-                                    <div class="text-sm text-gray-600">Pak Lombok</div>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Piket Kelas -->
+<div id="kelas-piket" class="grid grid-cols-2 gap-4">
+    <?php if (!empty($piket_kelas)): ?>
+        <?php foreach ($piket_kelas as $p): ?>
+        <div class="schedule-item piket">
+            <div class="flex-1 p-4">
+                <div class="text-center mb-3">
+                    <div class="text-lg font-bold text-gray-800"><?= $p['hari'] ?></div>
+                    <div class="text-xs text-gray-500"><?= ucfirst($p['area']) ?></div>
+                </div>
+                <div class="text-center font-medium text-gray-800">
+                    <?= $p['nama_siswa'] ?: 'Belum ditentukan' ?>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p class="text-gray-500 text-sm col-span-2 text-center">Belum ada jadwal piket kelas</p>
+    <?php endif; ?>
+</div>
 
-                        <!-- Schedule Item 2 -->
-                        <div class="schedule-item pelajaran">
-                            <div class="flex-1 p-4 flex items-center gap-4">
-                                <div class="text-center" style="min-width: 100px;">
-                                    <div class="text-2xl font-bold text-gray-800">2</div>
-                                    <div class="text-xs text-gray-500">Jam Pelajaran</div>
-                                </div>
-                                <div class="bg-gray-100 rounded px-4 py-2 text-center" style="min-width: 120px;">
-                                    <div class="font-semibold text-sm text-gray-800">07:45-08:30</div>
-                                    <div class="text-xs text-gray-600">45 Menit</div>
-                                </div>
-                                <div class="flex-1 text-left">
-                                    <div class="font-medium text-gray-800">Matematika</div>
-                                    <div class="text-sm text-gray-600">Bu Sari</div>
-                                </div>
+
+
+<div id="lab-piket" class="grid grid-cols-2 gap-4 hidden">
+    <?php if (!empty($piket_lab)): ?>
+        <?php foreach ($piket_lab as $p): ?>
+        <div class="schedule-item piket">
+            <div class="flex-1 p-4">
+                <div class="text-center mb-3">
+                    <div class="text-lg font-bold text-gray-800"><?= $p['hari'] ?></div>
+                    <div class="text-xs text-gray-500"><?= ucfirst($p['area']) ?></div>
+                </div>
+                <div class="text-center font-medium text-gray-800">
+                    <?= $p['nama_siswa'] ?: 'Belum ditentukan' ?>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p class="text-gray-500 text-sm col-span-2 text-center">Belum ada jadwal piket lab</p>
+    <?php endif; ?>
+</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="notifBox" class="fixed top-5 right-5 hidden bg-red-500 text-white px-4 py-3 rounded shadow-md z-50"></div>
+
+<script>
+document.getElementById('formTambahJadwal').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+  const response = await fetch(this.action, {
+    method: 'POST',
+    body: formData
+  });
+
+  const result = await response.json();
+  const notifBox = document.getElementById('notifBox');
+
+  if (result.success) {
+    notifBox.textContent = result.message || 'Jadwal berhasil ditambahkan.';
+    notifBox.className = 'fixed top-5 right-5 bg-green-500 text-white px-4 py-3 rounded shadow-md z-50';
+  } else {
+    notifBox.textContent = result.message || 'Jam tersebut sudah terpakai. Silakan pilih jam lain.';
+    notifBox.className = 'fixed top-5 right-5 bg-red-500 text-white px-4 py-3 rounded shadow-md z-50';
+  }
+
+  notifBox.classList.remove('hidden');
+  setTimeout(() => notifBox.classList.add('hidden'), 3000);
+
+  if (result.success) location.reload();
+});
+</script>
+
+<!-- Modal Edit Jadwal (pindahkan ke sini, sebelum </body>) -->
+<div id="modalEditJadwal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden z-[9999]">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+    <h3 class="text-lg font-bold mb-4 text-gray-800">Edit Jadwal Pelajaran</h3>
+
+    <div id="editList" class="space-y-3 max-h-[400px] overflow-y-auto">
+      <!-- Daftar jadwal dinamis -->
+    </div>
+
+    <div class="flex justify-end mt-4">
+      <button type="button" onclick="closeModal('modalEditJadwal')" class="bg-gray-300 px-4 py-2 rounded-md text-sm hover:bg-gray-400">
+        Tutup
+      </button>
+    </div>
+
+    <button onclick="closeModal('modalEditJadwal')" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+
+
+<!-- Modal Tambah Jadwal -->
+<div id="modalTambah" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden z-50">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+    <h3 class="text-lg font-bold mb-4 text-gray-800">Tambah Jadwal Pelajaran</h3>
+
+<form id="formTambahJadwal" method="post" action="<?= base_url('walikelas/tambah_jadwal') ?>" onsubmit="return submitJadwal(event, this)">
+    <input type="hidden" name="kelas_id" value="<?= $kelas['id'] ?>">
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Hari</label>
+        <select name="hari" class="w-full border border-gray-300 rounded-md p-2">
+          <option value="Senin">Senin</option>
+          <option value="Selasa">Selasa</option>
+          <option value="Rabu">Rabu</option>
+          <option value="Kamis">Kamis</option>
+          <option value="Jumat">Jumat</option>
+        </select>
+      </div>
+
+<div class="mb-4">
+  <label class="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran</label>
+  <select name="mata_pelajaran_id" class="w-full border border-gray-300 rounded-md p-2" required>
+    <option disabled selected>Pilih Mata Pelajaran</option>
+    <?php foreach ($mata_pelajaran as $mp): ?>
+      <option value="<?= $mp['id'] ?>"><?= $mp['nama_mapel'] ?></option>
+    <?php endforeach; ?>
+  </select>
+</div>
+
+<div class="mb-4">
+  <label class="block text-sm font-medium text-gray-700 mb-1">Guru Pengajar</label>
+  <select name="guru_id" class="w-full border border-gray-300 rounded-md p-2" required>
+    <option disabled selected>Pilih Guru</option>
+    <?php foreach ($guru as $g): ?>
+      <option value="<?= $g['id'] ?>"><?= $g['nama'] ?></option>
+    <?php endforeach; ?>
+  </select>
+</div>
+
+
+      <div class="flex gap-4 mb-4">
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Jam Mulai</label>
+          <input type="time" name="jam_mulai" class="w-full border border-gray-300 rounded-md p-2" required>
+        </div>
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Jam Selesai</label>
+          <input type="time" name="jam_selesai" class="w-full border border-gray-300 rounded-md p-2" required>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="closeModal('modalTambah')" class="bg-gray-300 px-4 py-2 rounded-md text-sm hover:bg-gray-400">
+          Batal
+        </button>
+        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700">
+          Simpan
+        </button>
+      </div>
+    </form>
+
+    <button onclick="closeModal('modalTambah')" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+
+<script>
+function openModal(id) {
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const areaBtns = document.querySelectorAll('.area-btn');
+    const kelasPiket = document.getElementById('kelas-piket');
+    const labPiket = document.getElementById('lab-piket');
+    
+    areaBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons
+            areaBtns.forEach(b => b.classList.remove('active', 'bg-white', 'text-orange-600', 'shadow-sm'));
+            areaBtns.forEach(b => b.classList.add('text-gray-600'));
+            
+            // Add active class to clicked button
+            this.classList.add('active', 'bg-white', 'text-orange-600', 'shadow-sm');
+            this.classList.remove('text-gray-600');
+            
+            const area = this.getAttribute('data-area');
+            
+            // Show/hide appropriate piket lists
+            if (area === 'kelas') {
+                kelasPiket.classList.remove('hidden');
+                labPiket.classList.add('hidden');
+            } else {
+                kelasPiket.classList.add('hidden');
+                labPiket.classList.remove('hidden');
+            }
+        });
+    });
+});
+</script>
+
+<style>
+.schedule-item.piket {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.schedule-item.piket:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.stat-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 4px;
+}
+
+.filter-btn {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #374151;
+    background: white;
+    cursor: pointer;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.area-btn {
+    transition: all 0.3s ease;
+}
+
+.area-btn.active {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.hidden {
+    display: none;
+}
+</style>
+
+<!-- Kegiatan Kelas Tab -->
+<div class="tab-content" id="kegiatan-tab">
+    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm">
+        <div class="section-header">
+            <h2 class="section-title">Kegiatan Kelas</h2>
+            <div class="flex space-x-2">
+                <select class="filter-btn">
+                    <option>Bulan Ini</option>
+                    <option>Bulan Depan</option>
+                </select>
+                <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-700 transition flex items-center">
+                    <i class="fas fa-plus mr-2"></i>Tambah Kegiatan
+                </button>
+            </div>
+        </div>
+
+        <!-- Kegiatan Item -->
+        <div class="mt-6 space-y-4">
+            <!-- Kegiatan Item 1 -->
+            <div class="kegiatan-item border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                18:00 - Selesai
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                Hari : Selasa
                             </div>
                         </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">
+                            Latihan Upacara
+                        </h3>
+                        <p class="text-gray-600 text-sm">
+                            Semua Siswa
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700 transition flex items-center">
+                            <i class="fas fa-edit mr-1"></i> Edit
+                        </button>
+                        <button class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-green-700 transition flex items-center">
+                            <i class="fas fa-plus mr-1"></i> Tambah
+                        </button>
                     </div>
                 </div>
+            </div>
 
-                <!-- Info Jam Kosong -->
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-info-circle text-blue-500"></i>
-                        <div>
-                            <p class="text-sm text-blue-800">
-                                <span class="font-semibold">9 jam pelajaran lainnya</span> akan ditampilkan setelah jam ini
-                            </p>
-                            <p class="text-xs text-blue-600 mt-1">
-                                Total 11 jam pelajaran dalam sehari
-                            </p>
+            <!-- Kegiatan Item 2 -->
+            <div class="kegiatan-item border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                                14:00 - 16:00
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                Hari : Rabu
+                            </div>
                         </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">
+                            Study Tour ke Museum
+                        </h3>
+                        <p class="text-gray-600 text-sm">
+                            Kelas X RPL 1
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700 transition flex items-center">
+                            <i class="fas fa-edit mr-1"></i> Edit
+                        </button>
+                        <button class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-green-700 transition flex items-center">
+                            <i class="fas fa-plus mr-1"></i> Tambah
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kegiatan Item 3 -->
+            <div class="kegiatan-item border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
+                                10:00 - 12:00
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                Hari : Kamis
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">
+                            Lomba Kebersihan Kelas
+                        </h3>
+                        <p class="text-gray-600 text-sm">
+                            Semua Siswa
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700 transition flex items-center">
+                            <i class="fas fa-edit mr-1"></i> Edit
+                        </button>
+                        <button class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-green-700 transition flex items-center">
+                            <i class="fas fa-plus mr-1"></i> Tambah
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kegiatan Item 4 -->
+            <div class="kegiatan-item border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+                                08:00 - 15:00
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                Hari : Jumat
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">
+                            Pentas Seni
+                        </h3>
+                        <p class="text-gray-600 text-sm">
+                            Siswa Pilihan
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700 transition flex items-center">
+                            <i class="fas fa-edit mr-1"></i> Edit
+                        </button>
+                        <button class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-green-700 transition flex items-center">
+                            <i class="fas fa-plus mr-1"></i> Tambah
+                        </button>
                     </div>
                 </div>
             </div>
@@ -489,108 +974,108 @@
     </div>
 </div>
 
-                <!-- Jadwal Piket Tab -->
-                <div class="tab-content" id="piket-tab">
-                    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm">
-                        <div class="section-header">
-                            <h2 class="section-title">Jadwal Piket</h2>
-                            <div class="flex space-x-2">
-                                <select class="filter-btn">
-                                    <option>Minggu Ini</option>
-                                    <option>Minggu Depan</option>
-                                </select>
-                                <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-600 transition flex items-center">
-                                    <i class="fas fa-plus mr-2"></i>Tambah Piket
-                                </button>
-                            </div>
-                        </div>
+<style>
+.kegiatan-item {
+    background: white;
+}
 
-                        <!-- Table for Piket -->
-                        <div class="table-container mt-6">
-                            <div class="table-header">
-                                Jadwal Piket Kelas
-                            </div>
-                            <div class="table-row">
-                                <div class="font-semibold">No</div>
-                                <div class="font-semibold">Hari</div>
-                                <div class="font-semibold">Siswa</div>
-                                <div class="font-semibold">Tugas</div>
-                            </div>
-                            <div class="table-row">
-                                <div>1</div>
-                                <div>Senin</div>
-                                <div>Andi, Budi, Cici</div>
-                                <div>Membersihkan papan tulis</div>
-                            </div>
-                            <div class="table-row">
-                                <div>2</div>
-                                <div>Selasa</div>
-                                <div>Dedi, Eka, Fani</div>
-                                <div>Menyapu kelas</div>
-                            </div>
-                            <div class="table-row">
-                                <div>3</div>
-                                <div>Rabu</div>
-                                <div>Gina, Hadi, Indra</div>
-                                <div>Merapikan buku</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+.kegiatan-item:hover {
+    border-color: #d1d5db;
+}
 
-                <!-- Kegiatan Kelas Tab -->
-                <div class="tab-content" id="kegiatan-tab">
-                    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm">
-                        <div class="section-header">
-                            <h2 class="section-title">Kegiatan Kelas</h2>
-                            <div class="flex space-x-2">
-                                <select class="filter-btn">
-                                    <option>Bulan Ini</option>
-                                    <option>Bulan Depan</option>
-                                </select>
-                                <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-700 transition flex items-center">
-                                    <i class="fas fa-plus mr-2"></i>Tambah Kegiatan
-                                </button>
-                            </div>
-                        </div>
+.filter-btn {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #374151;
+    background: white;
+    cursor: pointer;
+}
 
-                        <!-- Table for Kegiatan -->
-                        <div class="table-container mt-6">
-                            <div class="table-header">
-                                Daftar Kegiatan Kelas
-                            </div>
-                            <div class="table-row">
-                                <div class="font-semibold">No</div>
-                                <div class="font-semibold">Kegiatan</div>
-                                <div class="font-semibold">Tanggal</div>
-                                <div class="font-semibold">Status</div>
-                            </div>
-                            <div class="table-row">
-                                <div>1</div>
-                                <div>Study Tour ke Museum</div>
-                                <div>25 Jan 2024</div>
-                                <div><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Akan Datang</span></div>
-                            </div>
-                            <div class="table-row">
-                                <div>2</div>
-                                <div>Lomba Kebersihan Kelas</div>
-                                <div>15 Jan 2024</div>
-                                <div><span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Selesai</span></div>
-                            </div>
-                            <div class="table-row">
-                                <div>3</div>
-                                <div>Pentas Seni</div>
-                                <div>30 Jan 2024</div>
-                                <div><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Persiapan</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1f2937;
+}
+</style>
+<!-- Modal Tambah Piket -->
+<div id="modalPiket" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden z-50">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+    <h3 class="text-lg font-bold mb-4 text-gray-800">Tambah Jadwal Piket</h3>
+    <form id="formTambahPiket" method="post" action="<?= base_url('walikelas/tambah_piket') ?>">
+      <input type="hidden" name="kelas_id" value="<?= $kelas['id'] ?>">
+
+      <div class="mb-3">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Hari</label>
+        <select name="hari" class="w-full border border-gray-300 rounded-md p-2">
+          <option value="Senin">Senin</option>
+          <option value="Selasa">Selasa</option>
+          <option value="Rabu">Rabu</option>
+          <option value="Kamis">Kamis</option>
+          <option value="Jumat">Jumat</option>
+          <option value="Sabtu">Sabtu</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Siswa</label>
+        <select name="penanggung_jawab_id" class="w-full border border-gray-300 rounded-md p-2">
+          <?php foreach ($siswa as $s): ?>
+            <option value="<?= $s['id'] ?>"><?= $s['nama'] ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Area</label>
+        <select name="area" class="w-full border border-gray-300 rounded-md p-2">
+          <option value="kelas">Kelas</option>
+          <option value="lab">Lab</option>
+        </select>
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="closeModal('modalPiket')" class="bg-gray-300 px-4 py-2 rounded-md text-sm">Batal</button>
+        <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-md text-sm hover:bg-orange-600">Simpan</button>
+      </div>
+    </form>
+
+    <button onclick="closeModal('modalPiket')" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+
             </div>
         </main>
     </div>
 
     <script>
+        document.getElementById('formTambahPiket').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const response = await fetch(this.action, { method: 'POST', body: formData });
+  const result = await response.json();
+
+  const notifBox = document.getElementById('notifBox');
+  notifBox.textContent = result.message;
+  notifBox.style.backgroundColor = result.success ? '#22c55e' : '#ef4444';
+  notifBox.classList.remove('hidden');
+  setTimeout(() => notifBox.classList.add('hidden'), 3000);
+
+  if (result.success) {
+    setTimeout(() => location.reload(), 1000);
+  }
+});
+
         document.addEventListener('DOMContentLoaded', function() {
             // Tab Navigation
             const featureCards = document.querySelectorAll('.card-feature');
@@ -632,6 +1117,91 @@
                 });
             });
         });
+
+        async function submitJadwal(e, form) {
+  e.preventDefault();
+
+  const formData = new FormData(form);
+  const response = await fetch(form.action, { method: 'POST', body: formData });
+  const result = await response.json();
+
+  const notifBox = document.getElementById('notifBox');
+
+  // Atur tampilan dasar
+  notifBox.textContent = result.message || (result.success 
+      ? '✅ Jadwal berhasil ditambahkan.' 
+      : '⚠️ Jam tersebut sudah terpakai. Silakan pilih jam lain.');
+
+  notifBox.classList.remove('hidden', 'opacity-0', 'translate-y-[-10px]');
+  notifBox.classList.add('opacity-100', 'translate-y-0');
+  notifBox.style.backgroundColor = result.success ? '#22c55e' : '#ef4444';
+  notifBox.style.color = 'white';
+  notifBox.style.padding = '12px 16px';
+  notifBox.style.borderRadius = '8px';
+  notifBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+  notifBox.style.zIndex = '9999';
+
+  // Hilang pelan-pelan
+  setTimeout(() => {
+    notifBox.classList.add('opacity-0', 'translate-y-[-10px]');
+    setTimeout(() => notifBox.classList.add('hidden'), 300);
+  }, 3000);
+
+  // Reload kalau sukses
+  if (result.success) {
+    setTimeout(() => location.reload(), 1200);
+  }
+
+  return false;
+}
+async function openEditModal(url, hari, kelas_id) {
+  if (!hari) {
+    alert("Pilih hari dulu sebelum mengedit jadwal!");
+    return;
+  }
+
+  const response = await fetch(`${url}?hari=${hari}&kelas_id=${kelas_id}`);
+  const data = await response.json();
+
+  const list = document.getElementById("editList");
+  list.innerHTML = "";
+
+  if (!data.length) {
+    list.innerHTML = `<p class='text-gray-500 text-center text-sm'>Belum ada jadwal pada hari ${hari}.</p>`;
+  } else {
+    data.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "flex justify-between items-center border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition";
+      row.innerHTML = `
+        <div>
+          <p class="font-semibold text-gray-800">${item.mata_pelajaran} <span class="text-sm text-gray-500">(${item.jam_mulai} - ${item.jam_selesai})</span></p>
+          <p class="text-xs text-gray-600">${item.guru}</p>
+        </div>
+        <button onclick="hapusJadwal(${item.id})" class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">Hapus</button>
+      `;
+      list.appendChild(row);
+    });
+  }
+
+  openModal('modalEditJadwal');
+}
+
+async function hapusJadwal(id) {
+  if (!confirm("Yakin ingin menghapus jadwal ini?")) return;
+
+const response = await fetch(`<?= base_url('walikelas/hapus_jadwal/') ?>${id}`, { method: 'POST' });
+  const result = await response.json();
+
+  const notifBox = document.getElementById('notifBox');
+  notifBox.textContent = result.message || (result.success ? 'Berhasil dihapus.' : 'Gagal menghapus.');
+  notifBox.style.backgroundColor = result.success ? '#22c55e' : '#ef4444';
+  notifBox.classList.remove('hidden');
+  setTimeout(() => notifBox.classList.add('hidden'), 3000);
+
+  if (result.success) {
+    setTimeout(() => location.reload(), 1000);
+  }
+}
     </script>
 </body>
 </html>

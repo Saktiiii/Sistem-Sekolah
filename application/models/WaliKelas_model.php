@@ -99,4 +99,55 @@ class Walikelas_model extends CI_Model {
             'prestasi' => $prestasi
         ];
     }
+// =======================
+// ADMINISTRASI KELAS
+// =======================
+
+// Ambil jadwal pelajaran berdasarkan kelas
+public function getJadwal($kelas_id, $hari = null)
+{
+    $this->db->select("
+        j.id,
+        j.hari,
+        j.jam_mulai,
+        j.jam_selesai,
+        SEC_TO_TIME(TIME_TO_SEC(j.jam_selesai) - TIME_TO_SEC(j.jam_mulai)) AS durasi,
+        m.nama_mapel AS mata_pelajaran,
+        g.nama AS guru
+    ");
+    $this->db->from('jadwal j');
+    $this->db->join('mata_pelajaran m', 'm.id = j.mata_pelajaran_id', 'left');
+    $this->db->join('guru g', 'g.id = j.guru_id', 'left');
+    $this->db->where('j.kelas_id', $kelas_id);
+
+    // pastikan huruf besar/kecil cocok dengan database
+    if (!empty($hari)) {
+        $this->db->where('LOWER(j.hari)', strtolower($hari));
+    }
+
+    $this->db->order_by('FIELD(j.hari, "Senin","Selasa","Rabu","Kamis","Jumat")', '', false);
+    $this->db->order_by('j.jam_mulai', 'ASC');
+
+    $query = $this->db->get();
+    // Debug optional: aktifkan baris di bawah jika masih salah
+    // echo $this->db->last_query(); exit;
+
+    return $query->result_array();
+}
+
+
+
+
+// Ambil jadwal piket berdasarkan kelas
+public function getJadwalPiket($kelas_id)
+{
+    return $this->db->get_where('jadwal_piket', ['kelas_id' => $kelas_id])->result_array();
+}
+
+// Ambil kegiatan kelas berdasarkan kelas
+public function getKegiatanKelas($kelas_id)
+{
+    return $this->db->get_where('kegiatan_kelas', ['kelas_id' => $kelas_id])->result_array();
+}
+
 }
