@@ -3,8 +3,9 @@ class Ortu_model extends CI_Model
 {
     public function get_by_user($user_id)
     {
-        return $this->db->get_where('ortu', ['user_id' => $user_id])->row();
+        return $this->db->get_where('orang_tua', ['users_id' => $user_id])->row();
     }
+
     public function get_all()
     {
         $this->db->select('
@@ -79,5 +80,34 @@ class Ortu_model extends CI_Model
     {
         return $this->db->get_where('guru', ['id' => $id])->row();
     }
+
+    public function get_pengumuman()
+    {
+        $this->db->select('
+        p.id,
+        p.judul,
+        p.isi,
+        p.tanggal_pembuatan,
+        p.status,
+        g.nama AS pembuat_nama,
+        k.nama_kelas AS kelas
+    ');
+        $this->db->from('pengumuman p');
+        $this->db->join('guru g', 'g.id = p.dibuat_oleh', 'left');
+        $this->db->join('kelas k', 'k.id = p.id_kelas', 'left');
+        $this->db->order_by('p.tanggal_pembuatan', 'DESC');
+        return $this->db->get()->result();
+    }
+    public function get_wali_kelas($id_ortu)
+    {
+        $this->db->select('guru.*');
+        $this->db->from('guru');
+        $this->db->join('kelas', 'kelas.wali_kelas_id = guru.id');
+        $this->db->join('siswa', 'siswa.kelas_id = kelas.id');
+        $this->db->join('orang_tua', 'orang_tua.siswa_id = siswa.id');
+        $this->db->where('orang_tua.id', $id_ortu);
+        return $this->db->get()->row();
+    }
+
 }
 ?>

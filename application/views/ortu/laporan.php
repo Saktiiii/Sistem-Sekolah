@@ -47,17 +47,20 @@
                             class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-user text-xl'></i><span class="ml-3">Data Siswa</span></a></li>
                     <li><a href="<?= base_url('ortu/laporan') ?>"
-                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                            class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
                                 class='bx bx-file-report text-xl'></i><span class="ml-3">Laporan Siswa</span></a></li>
                     <li><a href="<?= base_url('ortu/absensi') ?>"
                             class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-check-square text-xl'></i><span class="ml-3">Absensi</span></a></li>
                     <li><a href="<?= base_url('ortu/komunikasi') ?>"
-                            class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-message text-xl'></i><span class="ml-3">Komunikasi</span></a></li>
                     <li><a href="<?= base_url('ortu/pengumuman') ?>"
                             class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
+                    <li><a href="<?= base_url('auth/logout') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Logout</span></a></li>
                 </ul>
             </nav>
         </aside>

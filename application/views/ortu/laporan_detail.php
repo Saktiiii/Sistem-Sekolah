@@ -45,17 +45,20 @@
                             class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-user text-xl'></i><span class="ml-3">Data Siswa</span></a></li>
                     <li><a href="<?= base_url('ortu/laporan') ?>"
-                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                            class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
                                 class='bx bx-file-report text-xl'></i><span class="ml-3">Laporan Siswa</span></a></li>
                     <li><a href="<?= base_url('ortu/absensi') ?>"
                             class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-check-square text-xl'></i><span class="ml-3">Absensi</span></a></li>
                     <li><a href="<?= base_url('ortu/komunikasi') ?>"
-                            class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-message text-xl'></i><span class="ml-3">Komunikasi</span></a></li>
                     <li><a href="<?= base_url('ortu/pengumuman') ?>"
                             class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
+                    <li><a href="<?= base_url('auth/logout') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Logout</span></a></li>
                 </ul>
             </nav>
         </aside>
@@ -111,7 +114,8 @@
 
                                 <div class="mb-4 pb-3 border-bottom border-indigo-100">
                                     <h4 class="text-2xl font-bold text-indigo-800 mb-1">
-                                        <?= htmlspecialchars($siswa->nama) ?></h4>
+                                        <?= htmlspecialchars($siswa->nama) ?>
+                                    </h4>
                                     <p class="text-gray-500 mb-0">NIS: <span
                                             class="fw-semibold me-3"><?= htmlspecialchars($siswa->nis) ?></span> |
                                         Kelas: <span
@@ -150,7 +154,8 @@
                                             <strong class="text-muted d-block mb-1"><i class="bi bi-geo-alt me-1"></i>
                                                 Alamat:</strong>
                                             <p class="mb-0 text-gray-700 fst-italic text-sm">
-                                                <?= htmlspecialchars($siswa->alamat) ?></p>
+                                                <?= htmlspecialchars($siswa->alamat) ?>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +199,8 @@
                                                             </span>
                                                         </td>
                                                         <td class="text-muted fst-italic text-sm">
-                                                            <?= htmlspecialchars($p->keterangan) ?></td>
+                                                            <?= htmlspecialchars($p->keterangan) ?>
+                                                        </td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else: ?>

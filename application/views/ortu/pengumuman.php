@@ -1,103 +1,189 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Pengumuman - Dashboard Ortu</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    .sidebar {
-      height: 100vh;
-      background: #fff;
-      border-right: 1px solid #ddd;
-      padding: 20px;
-    }
-    .sidebar h4 {
-      margin-bottom: 30px;
-    }
-    .nav.flex-column {
-      padding: 15px;
-    }
-    .nav.flex-column .nav-item {
-      margin-bottom: 10px;
-    }
-    .nav.flex-column .nav-link {
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: background-color 0.3s;
-    }
-    .nav.flex-column .nav-link:hover {
-      background-color: #f0f0f0;
-      text-decoration: none;
-    }
-    /* Biru keunguan */
-    .bg-primary-custom {
-      background: linear-gradient(90deg, #4e73df, #6f42c1);
-      color: #fff !important;
-    }
-    .announcement-card {
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    .announcement-card .card-header {
-      border-radius: 12px 12px 0 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wali Murid - Komunikasi Wali Kelas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card {
+            border-radius: 0.75rem !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .main-scroll-area {
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .h-screen {
+            height: 100vh !important;
+        }
+    </style>
 </head>
-<body>
 
-<div class="container-fluid">
-  <div class="row">
-    <!-- Sidebar -->
-    <div class="col-md-2 sidebar">
-      <h4>Ortu</h4>
-      <ul class="nav flex-column p-3">
-    <li class="nav-item mb-2">
-        <a class="nav-link text-dark" href="<?= site_url('ortu/dashboard'); ?>">📊 Dashboard</a>
-    </li>
-    <li class="nav-item mb-2">
-        <a class="nav-link text-dark" href="<?= site_url('ortu/data_siswa'); ?>">👨‍🎓 Data Siswa</a>
-    </li>
-    <li class="nav-item mb-2">
-        <a class="nav-link text-dark" href="<?= site_url('ortu/pengumuman'); ?>">📢 Pengumuman</a>
-    </li>
-    <li class="nav-item mt-4">
-        <a class="btn btn-danger w-100" href="<?= site_url('ortu/logout'); ?>">🚪 Logout</a>
-    </li>
-</ul>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white h-screen shadow-md flex-shrink-0">
+            <div class="p-6 flex items-center space-x-2 border-b">
+                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
+                    WM</div>
+                <span class="font-semibold text-lg">Wali Murid</span>
+            </div>
+            <nav class="mt-6">
+                <ul class="space-y-2">
+                    <li><a href="<?= base_url('ortu/dashboard') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-dashboard text-xl'></i><span class="ml-3">Dashboard</span></a></li>
+                    <li><a href="<?= base_url('ortu/data_siswa') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-user text-xl'></i><span class="ml-3">Data Siswa</span></a></li>
+                    <li><a href="<?= base_url('ortu/laporan') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-file-report text-xl'></i><span class="ml-3">Laporan Siswa</span></a></li>
+                    <li><a href="<?= base_url('ortu/absensi') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-check-square text-xl'></i><span class="ml-3">Absensi</span></a></li>
+                    <li><a href="<?= base_url('ortu/komunikasi') ?>"
+                            class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
+                                class='bx bx-message text-xl'></i><span class="ml-3">Komunikasi</span></a></li>
+                    <li><a href="<?= base_url('ortu/pengumuman') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
+                    <li><a href="<?= base_url('auth/logout') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Logout</span></a></li>
+                </ul>
+            </nav>
+        </aside>
 
-    </div>
+        <!-- MAIN CHAT AREA -->
+        <main class="flex-1 p-6 main-scroll-area">
+            <div class="container-fluid p-0">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Komunikasi Wali Kelas</h1>
 
-    <!-- Content -->
-    <div class="col-md-10 p-4">
-      <div class="card shadow mt-3">
-        <div class="card-header bg-primary-custom">
-          <h4 class="mb-0">📢 Pengumuman</h4>
-        </div>
-        <div class="card-body">
-          <?php if(!empty($pengumuman)): ?>
-            <?php foreach($pengumuman as $row): ?>
-              <div class="card announcement-card">
-                <div class="card-header bg-primary-custom">
-                  <h5 class="mb-0"><?= $row->judul; ?></h5>
+                <!-- Info atas -->
+                <div class="card mb-4 p-4 border-start border-4 border-indigo-500">
+                    <div class="flex justify-between">
+                        <div>
+                            <h5 class="text-gray-700 font-semibold mb-1">Wali Kelas</h5>
+                            <p class="mb-0"><?= htmlspecialchars($guru->nama) ?> <span
+                                    class="text-gray-500">(<?= $guru->email ?>)</span></p>
+                            <p class="text-sm text-gray-500 mb-0"><?= htmlspecialchars($guru->telepon) ?> •
+                                <?= htmlspecialchars($guru->alamat) ?>
+                            </p>
+                        </div>
+                        <div class="text-end">
+                            <h6 class="text-gray-600 mb-1">Orang Tua</h6>
+                            <p class="mb-0"><?= htmlspecialchars($orang_tua->nama) ?>
+                                (<?= htmlspecialchars($orang_tua->hubungan) ?>)</p>
+                            <p class="text-sm text-gray-500 mb-0"><?= htmlspecialchars($orang_tua->telepon) ?></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <small class="text-muted">📅 <?= date('d M Y', strtotime($row->tanggal_posting)); ?></small>
-                  <p class="mt-2"><?= $row->isi; ?></p>
-                </div>
-              </div>
-            <?php endforeach; ?>
-          <?php else: ?>
-            <div class="alert alert-info">Belum ada pengumuman.</div>
-          <?php endif; ?>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
+                <!-- Kotak Pengumuman -->
+                <div class="col-md-10 p-4">
+                    <div class="card shadow mt-3">
+                        <div class="card-header bg-primary-custom">
+                            <h4 class="mb-0">Pengumuman Sekolah</h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead class="bg-primary-custom">
+                                    <tr>
+                                        <th>Judul</th>
+                                        <th>Isi</th>
+                                        <th>Tanggal</th>
+                                        <th>Pembuat</th>
+                                        <th>Status</th>
+                                        <th>Kelas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($pengumuman)): ?>
+                                        <?php foreach ($pengumuman as $row): ?>
+                                            <tr>
+                                                <td><?= $row->judul; ?></td>
+                                                <td><?= $row->isi; ?></td>
+                                                <td><?= date('d M Y', strtotime($row->tanggal_pembuatan)); ?></td>
+                                                <td><?= $row->pembuat_nama; ?></td>
+                                                <td>
+                                                    <?php if ($row->status == 'umum'): ?>
+                                                        <span class="badge bg-success">Umum</span>
+                                                    <?php else: ?>
+                                                        <span class="badge bg-primary">Kelas</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><?= $row->kelas ?: '-'; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="6" class="text-center">Belum ada pengumuman</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- ASIDE INFO SISWA -->
+        <aside class="w-80 bg-white h-screen shadow-md p-6 flex-shrink-0 overflow-y-auto">
+            <div class="flex flex-col items-center border-b pb-4 mb-4">
+                <img src="<?= base_url('assets/profile1.jpg'); ?>"
+                    class="w-20 h-20 rounded-full object-cover border-4 border-indigo-100 shadow-md"
+                    alt="Profile Picture">
+                <h2 class="mt-3 font-bold text-xl text-gray-800">Silvan Vanness</h2>
+                <p class="text-gray-500 text-sm">NIS: 29/9022</p>
+            </div>
+
+            <div class="mt-4">
+                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-user-circle mr-2'></i>
+                    Informasi Pribadi</h3>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li class="flex justify-between"><strong>Nama:</strong> <span>Jhon Smith</span></li>
+                    <li class="flex justify-between"><strong>Tgl Lahir:</strong> <span>3 Agustus 2000</span></li>
+                    <li class="flex justify-between"><strong>Gender:</strong> <span>Laki-laki</span></li>
+                    <li class="flex justify-between"><strong>Agama:</strong> <span>Islam</span></li>
+                    <li class="mt-2 text-xs text-gray-500 border-t pt-2">Alamat: Kembang RT 01 RW 06, Karanganyar</li>
+                </ul>
+            </div>
+
+            <div class="mt-6 border-t pt-4">
+                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-book-content mr-2'></i>
+                    Informasi Akademik</h3>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li class="flex justify-between"><strong>Sekolah:</strong> <span>SMK Negeri 2 Karanganyar</span>
+                    </li>
+                    <li class="flex justify-between"><strong>NIS:</strong> <span>9999 / 0084354677</span></li>
+                    <li class="flex justify-between"><strong>Kelas:</strong> <span class="font-bold text-indigo-500">XI
+                            RB</span></li>
+                    <li class="flex justify-between"><strong>Tahun Masuk:</strong> <span>2023</span></li>
+                    <li class="flex justify-between"><strong>Tahun Lulus:</strong> <span><i>Belum lulus</i></span></li>
+                    <li class="flex justify-between"><strong>Wali Kelas:</strong> <span>Dwi Nuryani</span></li>
+                </ul>
+            </div>
+
+            <div class="mt-6 border-t pt-4">
+                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-group mr-2'></i>
+                    Informasi Orang Tua/Wali</h3>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li class="flex justify-between"><strong>Ayah:</strong> <span>Edi (Pedagang)</span></li>
+                    <li class="flex justify-between"><strong>Ibu:</strong> <span>Eni (IRT)</span></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
 </body>
+
 </html>

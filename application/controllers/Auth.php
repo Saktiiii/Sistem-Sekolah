@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Auth extends CI_Controller {
+class Auth extends CI_Controller
+{
     public function __construct()
     {
         parent::__construct();
@@ -16,24 +17,59 @@ class Auth extends CI_Controller {
     public function login()
     {
         $username = $this->input->post('username');
-        $password = $this->input->post('password');
+        $password = md5($this->input->post('password'));
 
         $user = $this->User_model->get_user($username, $password);
 
-        if ($user && $user->role == 'ortu') {
-            $this->session->set_userdata([
+        if ($user) {
+            $session_data = [
                 'user_id' => $user->id,
-                'role'    => $user->role,
+                'role' => $user->role,
                 'logged_in' => TRUE
-            ]);
-            redirect('ortu/dashboard');
+            ];
+
+            // Tambahkan ID spesifik berdasarkan role
+            if ($user->role == 'guru') {
+                $guru = $this->db->get_where('guru', ['user_id' => $user->id])->row();
+                if ($guru)
+                    $session_data['guru_id'] = $guru->id;
+            } elseif ($user->role == 'siswa') {
+                $siswa = $this->db->get_where('siswa', ['user_id' => $user->id])->row();
+                if ($siswa)
+                    $session_data['siswa_id'] = $siswa->id;
+            } elseif ($user->role == 'ortu') {
+                $ortu = $this->db->get_where('orang_tua', ['user_id' => $user->id])->row();
+                if ($ortu)
+                    $session_data['ortu_id'] = $ortu->id;
+            }
+
+            $this->session->set_userdata($session_data);
+
+            // Redirect sesuai role
+            switch ($user->role) {
+                case 'guru':
+                    redirect('guru/akademik');
+                    break;
+                case 'siswa':
+                    redirect('siswa/dashboard');
+                    break;
+                case 'ortu':
+                    redirect('ortu/dashboard');
+                    break;
+                case 'wali_kelas':
+                    redirect('wali/dashboard');
+                    break;
+                default:
+                    $this->session->set_flashdata('error', 'Role tidak dikenali.');
+                    redirect('auth');
+            }
         } else {
             $this->session->set_flashdata('error', 'Login gagal!');
             redirect('auth');
         }
     }
 
-    
+
     public function logout()
     {
         $this->session->sess_destroy();
