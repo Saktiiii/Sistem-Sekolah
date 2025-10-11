@@ -67,42 +67,6 @@
             <div class="container-fluid p-0">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Laporan Siswa</h1>
 
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-indigo-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Peringkat</h5>
-                                    <i class='bx bx-trophy text-2xl text-indigo-500'></i>
-                                </div>
-                                <h2 class="text-3xl fw-bold mb-0">6</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-red-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Pelanggaran</h5>
-                                    <i class='bx bx-error text-2xl text-red-500'></i>
-                                </div>
-                                <h3 class="text-2xl fw-bold mb-0 text-red-600">3</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-amber-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Absensi (A/I/S)</h5>
-                                    <i class='bx bx-calendar-x text-2xl text-amber-500'></i>
-                                </div>
-                                <h3 class="text-2xl fw-bold mb-0 text-amber-600">1</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="row g-4 mt-4">
                     <div class="col-lg-12">
                         <div class="card shadow-lg border-0 rounded-xl p-0">

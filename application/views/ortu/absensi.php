@@ -69,53 +69,6 @@
             <div class="container-fluid p-0">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Absensi Siswa</h1>
 
-                <div class="row g-4">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-indigo-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Peringkat Kelas</h5>
-                                    <i class='bx bx-trophy text-2xl text-indigo-500'></i>
-                                </div>
-                                <h2 class="text-3xl fw-bold mb-0">6 <small class="text-sm text-muted">dari 30
-                                        Siswa</small></h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-red-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Total Pelanggaran</h5>
-                                    <i class='bx bx-error text-2xl text-red-500'></i>
-                                </div>
-                                <h3 class="text-3xl fw-bold mb-0 text-red-600">3</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-amber-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Total Absensi (A/I/S)</h5>
-                                    <i class='bx bx-calendar-x text-2xl text-amber-500'></i>
-                                </div>
-                                <?php
-                                $tidak_hadir_count = 0;
-                                if (!empty($absensi)) {
-                                    foreach ($absensi as $row) {
-                                        if (strtolower($row->status) !== 'hadir') {
-                                            $tidak_hadir_count++;
-                                        }
-                                    }
-                                }
-                                ?>
-                                <h3 class="text-3xl fw-bold mb-0 text-amber-600"><?= $tidak_hadir_count; ?></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="mt-6">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4"><i
                             class="bi bi-list-check me-2 text-indigo-600"></i> Riwayat Absensi Terbaru</h2>

@@ -23,25 +23,28 @@ class Auth extends CI_Controller
 
         if ($user) {
             $session_data = [
-                'user_id' => $user->id,
+                'users_id' => $user->id,
                 'role' => $user->role,
                 'logged_in' => TRUE
             ];
 
             // Tambahkan ID spesifik berdasarkan role
             if ($user->role == 'guru') {
-                $guru = $this->db->get_where('guru', ['user_id' => $user->id])->row();
+                $guru = $this->db->get_where('guru', ['users_id' => $user->id])->row();
                 if ($guru)
                     $session_data['guru_id'] = $guru->id;
             } elseif ($user->role == 'siswa') {
-                $siswa = $this->db->get_where('siswa', ['user_id' => $user->id])->row();
+                $siswa = $this->db->get_where('siswa', ['users_id' => $user->id])->row();
                 if ($siswa)
                     $session_data['siswa_id'] = $siswa->id;
             } elseif ($user->role == 'ortu') {
-                $ortu = $this->db->get_where('orang_tua', ['user_id' => $user->id])->row();
-                if ($ortu)
-                    $session_data['ortu_id'] = $ortu->id;
+                $ortu = $this->db->get_where('orang_tua', ['users_id' => $user->id])->row();
+                if ($ortu) {
+                    $session_data['ortu_id'] = $ortu->id;   // untuk referensi ortu
+                }
+                $session_data['user_id'] = $user->id; // **tambahkan ini**
             }
+
 
             $this->session->set_userdata($session_data);
 
