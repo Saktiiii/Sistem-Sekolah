@@ -73,64 +73,54 @@
         <!-- Main Content -->
         <main class="flex-1 p-6 main-scroll-area">
             <div class="container-fluid p-0">
+
+                <!-- Header Selamat Datang -->
                 <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-2xl p-6 mb-6 shadow-md">
                     <h2 class="text-3xl font-semibold">Selamat Datang, Orang Tua/Wali</h2>
                     <p class="text-indigo-100 mt-2">Anda dapat memantau perkembangan siswa melalui dashboard ini.</p>
                 </div>
 
-                <!-- Statistik -->
-                <div class="row g-4 mb-5">
-                    <div class="col-md-3">
-                        <div class="card border-start border-4 border-indigo-500">
+                <!-- Judul Dashboard Anak -->
+                <h2 class="mb-4">Dashboard Anak: <?= htmlspecialchars($siswa->nama); ?></h2>
+
+                <!-- Kartu Dashboard -->
+                <div class="row g-4 mb-4">
+
+                    <!-- Peringkat Kelas -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-start border-4 border-indigo-500 shadow-sm">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="text-muted mb-1">Peringkat</h6>
-                                    <i class='bx bx-trophy text-indigo-500 text-2xl'></i>
+                                <div class="d-flex align-items-start justify-content-between">
+                                    <h5 class="text-muted mb-1">Peringkat Kelas</h5>
+                                    <i class='bx bx-trophy text-2xl text-indigo-500'></i>
                                 </div>
-                                <h2 class="fw-bold text-3xl text-indigo-700">36</h2>
+                                <h2 class="text-3xl fw-bold mb-0">
+                                    <?= $dashboard['peringkat']; ?>
+                                    <small class="text-sm text-muted">dari <?= $dashboard['total_siswa']; ?>
+                                        Siswa</small>
+                                </h2>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="card border-start border-4 border-red-500">
+                    <!-- Total Absensi -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-start border-4 border-amber-500 shadow-sm">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="text-muted mb-1">Pelanggaran</h6>
-                                    <i class='bx bx-error text-red-500 text-2xl'></i>
+                                <div class="d-flex align-items-start justify-content-between">
+                                    <h5 class="text-muted mb-1">Total Absensi (A/I/S)</h5>
+                                    <i class='bx bx-calendar-x text-2xl text-amber-500'></i>
                                 </div>
-                                <h2 class="fw-bold text-3xl text-red-600">3</h2>
+                                <h3 class="text-3xl fw-bold mb-0 text-amber-600"><?= $dashboard['total_absensi']; ?>
+                                </h3>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="card border-start border-4 border-amber-500">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="text-muted mb-1">Absen</h6>
-                                    <i class='bx bx-calendar-x text-amber-500 text-2xl'></i>
-                                </div>
-                                <h2 class="fw-bold text-3xl text-amber-600">10</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card border-start border-4 border-green-500">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="text-muted mb-1">Total Nilai</h6>
-                                    <i class='bx bx-bar-chart-alt text-green-500 text-2xl'></i>
-                                </div>
-                                <h2 class="fw-bold text-3xl text-green-600">83</h2>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Ringkasan Siswa -->
-                <div class="card border-0 shadow-lg">
+                <div class="card border-0 shadow-lg mb-4">
                     <div class="card-header bg-indigo-600 text-white fw-bold">
                         <i class="bi bi-person-lines-fill me-2"></i> Ringkasan Siswa
                     </div>
@@ -138,25 +128,30 @@
                         <table class="table table-bordered align-middle mb-0">
                             <tr>
                                 <th>Nama</th>
-                                <td>Jhon Smith</td>
+                                <td><?= htmlspecialchars($siswa->nama); ?></td>
                             </tr>
                             <tr>
                                 <th>Kelas</th>
-                                <td>XII RPL B</td>
-                            </tr>
-                            <tr>
-                                <th>Jurusan</th>
-                                <td>Rekayasa Perangkat Lunak</td>
+                                <td><?= htmlspecialchars($siswa->nama_kelas ?? '-'); ?></td>
                             </tr>
                             <tr>
                                 <th>Jenis Kelamin</th>
-                                <td><span class="badge bg-success">L</span></td>
+                                <td>
+                                    <?php if (isset($siswa->jenis_kelamin)): ?>
+                                        <span class="badge <?= $siswa->jenis_kelamin == 'L' ? 'bg-success' : 'bg-pink'; ?>">
+                                            <?= $siswa->jenis_kelamin; ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="text-muted">-</span>
+                                    <?php endif; ?>
+                                </td>
                             </tr>
                         </table>
                     </div>
                 </div>
 
             </div>
+
         </main>
 
         <!-- Aside (profil siswa) -->

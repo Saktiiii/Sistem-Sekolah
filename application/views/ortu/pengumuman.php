@@ -65,71 +65,45 @@
         <!-- MAIN CHAT AREA -->
         <main class="flex-1 p-6 main-scroll-area">
             <div class="container-fluid p-0">
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Komunikasi Wali Kelas</h1>
-
-                <!-- Info atas -->
-                <div class="card mb-4 p-4 border-start border-4 border-indigo-500">
-                    <div class="flex justify-between">
-                        <div>
-                            <h5 class="text-gray-700 font-semibold mb-1">Wali Kelas</h5>
-                            <p class="mb-0"><?= htmlspecialchars($guru->nama) ?> <span
-                                    class="text-gray-500">(<?= $guru->email ?>)</span></p>
-                            <p class="text-sm text-gray-500 mb-0"><?= htmlspecialchars($guru->telepon) ?> •
-                                <?= htmlspecialchars($guru->alamat) ?>
-                            </p>
-                        </div>
-                        <div class="text-end">
-                            <h6 class="text-gray-600 mb-1">Orang Tua</h6>
-                            <p class="mb-0"><?= htmlspecialchars($orang_tua->nama) ?>
-                                (<?= htmlspecialchars($orang_tua->hubungan) ?>)</p>
-                            <p class="text-sm text-gray-500 mb-0"><?= htmlspecialchars($orang_tua->telepon) ?></p>
-                        </div>
-                    </div>
-                </div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Pengumuman</h1>
 
                 <!-- Kotak Pengumuman -->
-                <div class="col-md-10 p-4">
-                    <div class="card shadow mt-3">
-                        <div class="card-header bg-primary-custom">
-                            <h4 class="mb-0">Pengumuman Sekolah</h4>
-                        </div>
+                <div class="col-md-12 p-0">
+                    <div class="card shadow">
                         <div class="card-body">
-                            <table class="table table-bordered table-striped">
-                                <thead class="bg-primary-custom">
-                                    <tr>
-                                        <th>Judul</th>
-                                        <th>Isi</th>
-                                        <th>Tanggal</th>
-                                        <th>Pembuat</th>
-                                        <th>Status</th>
-                                        <th>Kelas</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if (!empty($pengumuman)): ?>
-                                        <?php foreach ($pengumuman as $row): ?>
-                                            <tr>
-                                                <td><?= $row->judul; ?></td>
-                                                <td><?= $row->isi; ?></td>
-                                                <td><?= date('d M Y', strtotime($row->tanggal_pembuatan)); ?></td>
-                                                <td><?= $row->pembuat_nama; ?></td>
-                                                <td>
-                                                    <?php if ($row->status == 'umum'): ?>
-                                                        <span class="badge bg-success">Umum</span>
-                                                    <?php else: ?>
-                                                        <span class="badge bg-primary">Kelas</span>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td><?= $row->kelas ?: '-'; ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead class="table-primary">
                                         <tr>
-                                            <td colspan="6" class="text-center">Belum ada pengumuman</td>
+                                            <th>Judul</th>
+                                            <th>Isi</th>
+                                            <th>Tanggal</th>
+                                            <th>Pembuat</th>
+                                            <th>Status</th>
                                         </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($pengumuman)): ?>
+                                            <?php foreach ($pengumuman as $row): ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($row->judul); ?></td>
+                                                    <td><?= htmlspecialchars(substr($row->isi, 0, 50)) . (strlen($row->isi) > 50 ? '...' : ''); ?>
+                                                    </td>
+                                                    <td><?= date('d M Y', strtotime($row->tanggal_pembuatan)); ?></td>
+                                                    <td><?= htmlspecialchars($row->pembuat_nama); ?></td>
+                                                    <td><span class="badge text-bg-success">Umum</span></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="5" class="text-center text-muted p-4">
+                                                    <i class="bi bi-info-circle me-2"></i> Belum ada pengumuman
+                                                </td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

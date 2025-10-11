@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Guru_model extends CI_Model
 {
+    public function get_by_user($user_id)
+    {
+        // Ambil orang tua berdasarkan users_id (bukan id)
+        return $this->db->get_where('orang_tua', ['users_id' => $user_id])->row();
+    }
+
 
     public function get_by_user_id($user_id)
     {
@@ -130,7 +136,7 @@ class Guru_model extends CI_Model
     // Nilai siswa per kelas
     public function get_nilai_by_kelas($kelas_id)
     {
-        $this->db->select('nilai.*, siswa.nama as nama_siswa, mata_pelajaran.nama as nama_mapel');
+        $this->db->select('nilai.*, siswa.nama as nama_siswa, mata_pelajaran.nama_mapel');
         $this->db->from('nilai');
         $this->db->join('siswa', 'siswa.id = nilai.siswa_id');
         $this->db->join('mata_pelajaran', 'mata_pelajaran.id = nilai.mata_pelajaran_id');
@@ -140,10 +146,15 @@ class Guru_model extends CI_Model
 
         return $this->db->get()->result();
     }
+    public function get_all_kelas()
+    {
+        return $this->db->get('kelas')->result();
+    }
+
     // Absensi siswa per kelas
     public function get_absensi_by_kelas($kelas_id)
     {
-        $this->db->select('presensi.*, siswa.nama as nama_siswa, jadwal.hari, jadwal.jam');
+        $this->db->select('presensi.*, siswa.nama as nama_siswa, jadwal.hari, jadwal.jam_mulai, jadwal.jam_selesai');
         $this->db->from('presensi');
         $this->db->join('siswa', 'siswa.id = presensi.siswa_id');
         $this->db->join('jadwal', 'jadwal.id = presensi.jadwal_id');
@@ -151,14 +162,41 @@ class Guru_model extends CI_Model
         $this->db->order_by('presensi.tanggal', 'ASC');
         return $this->db->get()->result();
     }
+
     // Tugas siswa per kelas
     public function get_tugas_by_kelas($kelas_id)
     {
-        $this->db->select('tugas.*, mata_pelajaran.nama as nama_mapel');
+        $this->db->select('tugas.*, mata_pelajaran.nama_mapel');
         $this->db->from('tugas');
         $this->db->join('mata_pelajaran', 'mata_pelajaran.id = tugas.mata_pelajaran_id');
         $this->db->where('kelas_id', $kelas_id);
         $this->db->order_by('tugas.batas_pengumpulan', 'ASC');
         return $this->db->get()->result();
+    }
+
+    // absensi
+    public function insert_absen($data)
+    {
+        return $this->db->insert('absensi_guru', $data);
+    }
+    public function get_all_absensi()
+    {
+        $this->db->order_by('tanggal', 'DESC');
+        return $this->db->get('absensi_guru')->result();
+    }
+    // Ambil absensi berdasarkan NIP
+    public function get_absensi_by_guru($nip)
+    {
+        $this->db->where('nip', $nip);
+        $this->db->order_by('tanggal', 'DESC');
+        return $this->db->get('absensi_guru')->result_array();
+    }
+
+    // Ambil daftar guru unik
+    public function get_all_guru()
+    {
+        $this->db->select('nama, nip');
+        $this->db->distinct();
+        return $this->db->get('absensi_guru')->result_array();
     }
 }
