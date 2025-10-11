@@ -192,46 +192,6 @@
                 <div class="pb-5"></div>
             </div>
         </main>
-
-        <aside class="w-80 bg-white h-screen shadow-md p-6 flex-shrink-0">
-            <div class="flex flex-col items-center border-b pb-4 mb-4">
-                <img src="assets/profile1.jpg" class="w-20 h-20 rounded-full" alt="">
-                <h2 class="mt-2 font-semibold text-lg">Silvan Vanness</h2>
-                <p class="text-gray-500">29/9022</p>
-            </div>
-            <div class="mt-4">
-                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-user-circle mr-2'></i>
-                    Informasi Pribadi</h3>
-                <ul class="text-sm text-gray-700 space-y-1">
-                    <li>Jhon Smith</li>
-                    <li>3 Agustus 2000</li>
-                    <li>Laki-laki</li>
-                    <li>Islam</li>
-                    <li class="mt-2 text-xs text-gray-500 border-t pt-2">Kembang RT 01 RW 06, Karanganyar</li>
-                </ul>
-            </div>
-            <div class="mt-6 border-t pt-4">
-                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-book-content mr-2'></i>
-                    Informasi Akademik</h3>
-                <ul class="text-sm text-gray-700 space-y-1">
-                    <li>SMK Negeri 2 Karanganyar</li>
-                    <li>9999 / 0084354677</li>
-                    <li>Kelas XI RB</li>
-                    <li>Tahun Masuk: 2023</li>
-                    <li>Tahun Lulus: <i>belum lulus</i></li>
-                    <li>Wali Kelas: Dwi Nuryani</li>
-                </ul>
-            </div>
-            <div class="mt-6 border-t pt-4">
-                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-group mr-2'></i>
-                    Informasi
-                    Orang Tua/Wali</h3>
-                <ul class="text-sm text-gray-700 space-y-1">
-                    <li>Ayah: Edi (Pedagang)</li>
-                    <li>Ibu: Eni (IRT)</li>
-                </ul>
-            </div>
-        </aside>
     </div>
 </body>
 

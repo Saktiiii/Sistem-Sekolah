@@ -7,13 +7,15 @@ class Ortu extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if (!$this->session->userdata('logged_in') || $this->session->userdata('role') != 'ortu') {
-            redirect('auth');
-        }
-
         // load model
         $this->load->model('Pengumuman_model', 'pengumuman');
         $this->load->model('Ortu_model');
+
+        // Ambil session users_id
+        $this->users_id = $this->session->userdata('users_id');
+        if (!$this->users_id || $this->session->userdata('role') != 'ortu') {
+            redirect('auth'); // redirect jika belum login atau bukan ortu
+        }
     }
 
     public function dashboard()
@@ -58,13 +60,9 @@ class Ortu extends CI_Controller
 
         $this->load->view('ortu/dashboard', $data);
     }
-
-
-
     public function data_siswa()
     {
-        $this->load->model('Ortu_model');
-        $data['siswa'] = $this->Ortu_model->get_all();
+        $data['siswa'] = $this->Ortu_model->get_all($this->users_id);
         $this->load->view('ortu/data_siswa', $data);
     }
 
@@ -84,11 +82,15 @@ class Ortu extends CI_Controller
     // daftar absensi
     public function absensi()
     {
+        $this->load->model('Ortu_model');
+
+        $users_id = $this->session->userdata('users_id'); // ambil users_id dari session
         $data['title'] = 'Daftar Absensi Siswa';
-        $data['absensi'] = $this->Ortu_model->get_all_absensi();
+        $data['absensi'] = $this->Ortu_model->get_absensi_anak($users_id);
 
         $this->load->view('ortu/absensi', $data);
     }
+
     // komunikasi
     public function komunikasi($orang_tua_id = 1)
     {

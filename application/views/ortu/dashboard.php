@@ -153,53 +153,6 @@
             </div>
 
         </main>
-
-        <!-- Aside (profil siswa) -->
-        <aside class="w-80 bg-white h-screen shadow-md p-6 flex-shrink-0 overflow-y-auto">
-            <div class="flex flex-col items-center border-b pb-4 mb-4">
-                <img src="<?= base_url('assets/profile1.jpg'); ?>"
-                    class="w-20 h-20 rounded-full object-cover border-4 border-indigo-100 shadow-md"
-                    alt="Profile Picture">
-                <h2 class="mt-3 font-bold text-xl text-gray-800">Silvan Vanness</h2>
-                <p class="text-gray-500 text-sm">NIS: 29/9022</p>
-            </div>
-
-            <div class="mt-4">
-                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-user-circle mr-2'></i>
-                    Informasi Pribadi</h3>
-                <ul class="text-sm text-gray-700 space-y-1">
-                    <li class="flex justify-between"><strong>Nama:</strong> <span>Jhon Smith</span></li>
-                    <li class="flex justify-between"><strong>Tgl Lahir:</strong> <span>3 Agustus 2000</span></li>
-                    <li class="flex justify-between"><strong>Gender:</strong> <span>Laki-laki</span></li>
-                    <li class="flex justify-between"><strong>Agama:</strong> <span>Islam</span></li>
-                    <li class="mt-2 text-xs text-gray-500 border-t pt-2">Alamat: Kembang RT 01 RW 06, Karanganyar</li>
-                </ul>
-            </div>
-
-            <div class="mt-6 border-t pt-4">
-                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-book-content mr-2'></i>
-                    Informasi Akademik</h3>
-                <ul class="text-sm text-gray-700 space-y-1">
-                    <li class="flex justify-between"><strong>Sekolah:</strong> <span>SMK Negeri 2 Karanganyar</span>
-                    </li>
-                    <li class="flex justify-between"><strong>NIS:</strong> <span>9999 / 0084354677</span></li>
-                    <li class="flex justify-between"><strong>Kelas:</strong> <span class="font-bold text-indigo-500">XI
-                            RB</span></li>
-                    <li class="flex justify-between"><strong>Tahun Masuk:</strong> <span>2023</span></li>
-                    <li class="flex justify-between"><strong>Tahun Lulus:</strong> <span><i>Belum lulus</i></span></li>
-                    <li class="flex justify-between"><strong>Wali Kelas:</strong> <span>Dwi Nuryani</span></li>
-                </ul>
-            </div>
-
-            <div class="mt-6 border-t pt-4">
-                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-group mr-2'></i>
-                    Informasi Orang Tua/Wali</h3>
-                <ul class="text-sm text-gray-700 space-y-1">
-                    <li class="flex justify-between"><strong>Ayah:</strong> <span>Edi (Pedagang)</span></li>
-                    <li class="flex justify-between"><strong>Ibu:</strong> <span>Eni (IRT)</span></li>
-                </ul>
-            </div>
-        </aside>
     </div>
 
 </body>
