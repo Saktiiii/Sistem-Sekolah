@@ -198,7 +198,7 @@
       </div>
     </div>
 
-    <a id="logoutBtn" class="logout-button" href="<?= site_url('guru/logout') ?>">Logout</a>
+    <a id="logoutBtn" class="logout-button" href="<?= site_url('auth/logout') ?>">Logout</a>
   </div>
 </aside>
 

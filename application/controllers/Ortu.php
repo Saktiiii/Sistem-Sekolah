@@ -7,9 +7,9 @@ class Ortu extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        // if (!$this->session->userdata('logged_in') || $this->session->userdata('role') != 'ortu') {
-        //     redirect('auth');
-        // }
+        if (!$this->session->userdata('logged_in') || $this->session->userdata('role') != 'ortu') {
+            redirect('auth');
+        }
 
         // load model
         $this->load->model('Pengumuman_model', 'pengumuman');
@@ -18,30 +18,54 @@ class Ortu extends CI_Controller
 
     public function dashboard()
     {
-        $this->load->view('ortu/dashboard');
+        $user_id = $this->session->userdata('user_id'); // 6
+        $orang_tua = $this->Ortu_model->get_by_user($user_id);
+        $siswa = $this->Ortu_model->get_siswa_by_ortu($orang_tua->id);
+
+        // 1. Ambil user_id dari session (ortu yang login)
+        $user_id = $this->session->userdata('user_id');
+
+        // 2. Ambil data orang tua berdasarkan user_id
+        $orang_tua = $this->Ortu_model->get_by_user($user_id);
+
+        if (!$orang_tua) {
+            show_error('Data orang tua tidak ditemukan.');
+            return;
+        }
+
+        // 3. Ambil data siswa sesuai ID orang tua
+        $siswa = $this->Ortu_model->get_siswa_by_ortu($orang_tua->id);
+
+        // 4. Siapkan data dashboard anak
+        $dashboard = [
+            'peringkat' => '-',
+            'total_siswa' => '-',
+            'total_absensi' => 0
+        ];
+
+        if ($siswa) {
+            // Ambil peringkat & total siswa di kelas
+            // Ambil total absensi anak
+            $dashboard = $this->Ortu_model->get_dashboard_anak($siswa->id, $siswa->kelas_id);
+        }
+
+        // 5. Kirim data ke view
+        $data = [
+            'orang_tua' => $orang_tua,
+            'siswa' => $siswa,
+            'dashboard' => $dashboard
+        ];
+
+        $this->load->view('ortu/dashboard', $data);
     }
+
+
 
     public function data_siswa()
     {
         $this->load->model('Ortu_model');
         $data['siswa'] = $this->Ortu_model->get_all();
         $this->load->view('ortu/data_siswa', $data);
-    }
-
-    public function pengumuman()
-    {
-        // panggil alias 'pengumuman'
-        $data['pengumuman'] = $this->pengumuman->get_all();
-        $this->load->view('ortu/pengumuman', $data);
-    }
-
-    public function logout()
-    {
-        // Hapus semua session
-        $this->session->sess_destroy();
-
-        // Kembali ke halaman login
-        redirect('auth');
     }
 
     // laporan
@@ -103,4 +127,32 @@ class Ortu extends CI_Controller
         $this->Ortu_model->kirimPesan($data);
         redirect('ortu/komunikasi/' . $orang_tua_id);
     }
+    public function pengumuman()
+    {
+        // 1. Ambil ID user yang sedang login
+        $user_id = $this->session->userdata('user_id');
+
+        // 2. Ambil data orang tua
+        $orang_tua = $this->Ortu_model->get_by_user($user_id);
+        if (!$orang_tua) {
+            show_error('Data orang tua tidak ditemukan.');
+            return;
+        }
+
+        // 3. Ambil data siswa (opsional, jika ingin tampil di view)
+        $siswa = $this->Ortu_model->get_siswa_by_ortu($orang_tua->id);
+
+        // 4. Ambil pengumuman umum saja
+        $pengumuman = $this->Ortu_model->get_pengumuman_umum();
+
+        // 5. Kirim data ke view
+        $data = [
+            'orang_tua' => $orang_tua,
+            'siswa' => $siswa,
+            'pengumuman' => $pengumuman
+        ];
+
+        $this->load->view('ortu/pengumuman', $data);
+    }
+
 }

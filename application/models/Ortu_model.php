@@ -1,10 +1,54 @@
 <?php
 class Ortu_model extends CI_Model
 {
+    public function get_dashboard_anak($siswa_id, $kelas_id)
+    {
+        // Peringkat Kelas
+        $this->db->select('s.id, AVG(n.nilai_total) AS rata_rata');
+        $this->db->from('siswa s');
+        $this->db->join('nilai n', 'n.siswa_id = s.id', 'left');
+        $this->db->where('s.kelas_id', $kelas_id);
+        $this->db->group_by('s.id');
+        $this->db->order_by('rata_rata', 'DESC');
+        $peringkat = $this->db->get()->result();
+
+        // Hitung peringkat anak
+        $rank = 0;
+        foreach ($peringkat as $index => $row) {
+            if ($row->id == $siswa_id) {
+                $rank = $index + 1;
+                break;
+            }
+        }
+        $total_siswa = count($peringkat);
+
+        // Total Pelanggaran
+        $total_pelanggaran = 0;
+        if ($this->db->table_exists('pelanggaran_siswa')) {
+            $this->db->where('siswa_id', $siswa_id);
+            $total_pelanggaran = $this->db->count_all_results('pelanggaran_siswa');
+        }
+
+
+        // Total Absensi
+        $this->db->where('siswa_id', $siswa_id);
+        $this->db->where('status !=', 'hadir');
+        $total_absensi = $this->db->count_all_results('presensi');
+
+        return [
+            'peringkat' => $rank,
+            'total_siswa' => $total_siswa,
+            'total_pelanggaran' => $total_pelanggaran,
+            'total_absensi' => $total_absensi
+        ];
+    }
+
     public function get_by_user($user_id)
     {
-        return $this->db->get_where('ortu', ['user_id' => $user_id])->row();
+        return $this->db->get_where('orang_tua', ['users_id' => $user_id])->row();
     }
+
+
     public function get_all()
     {
         $this->db->select('
@@ -79,5 +123,46 @@ class Ortu_model extends CI_Model
     {
         return $this->db->get_where('guru', ['id' => $id])->row();
     }
+    // Ambil siswa berdasarkan orang tua
+    public function get_siswa_by_ortu($id_ortu)
+    {
+        $this->db->select('s.*, k.nama_kelas');
+        $this->db->from('siswa s');
+        $this->db->join('orang_tua ot', 'ot.siswa_id = s.id', 'inner');
+        $this->db->join('kelas k', 'k.id = s.kelas_id', 'left');
+        $this->db->where('ot.id', $id_ortu); // FILTER PENTING
+        $this->db->limit(1);
+        return $this->db->get()->row();
+    }
+
+
+
+
+
+    // Ambil wali kelas (jika perlu)
+    public function get_wali_kelas($id_ortu)
+    {
+        $this->db->select('g.*');
+        $this->db->from('guru g');
+        $this->db->join('kelas k', 'k.wali_kelas_id = g.id');
+        $this->db->join('siswa s', 's.kelas_id = k.id');
+        $this->db->join('orang_tua ot', 'ot.siswa_id = s.id');
+        $this->db->where('ot.id', $id_ortu);
+        return $this->db->get()->row();
+    }
+    // Ambil pengumuman umum saja
+    public function get_pengumuman_umum()
+    {
+        $this->db->select('
+            p.id, p.judul, p.isi, p.tanggal_pembuatan, p.status, 
+            g.nama AS pembuat_nama
+        ');
+        $this->db->from('pengumuman p');
+        $this->db->join('guru g', 'g.id = p.dibuat_oleh', 'left');
+        $this->db->where('p.status', 'umum'); // Hanya pengumuman umum
+        $this->db->order_by('p.tanggal_pembuatan', 'DESC');
+        return $this->db->get()->result();
+    }
+
 }
 ?>

@@ -32,86 +32,42 @@
 
 <body class="bg-gray-100 font-sans">
     <div class="flex h-screen">
-    <aside class="w-64 bg-white h-screen shadow-md flex-shrink-0">
-      <div class="p-6 flex items-center space-x-2 border-b">
-        <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
-          WM</div>
-        <span class="font-semibold text-lg">Wali Murid</span>
-      </div>
-      <nav class="mt-6">
-        <ul class="space-y-2">
-          <li><a href="<?= base_url('ortu/dashboard') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-dashboard text-xl'></i><span class="ml-3">Dashboard</span></a></li>
-          <li><a href="<?= base_url('ortu/data_siswa') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-user text-xl'></i><span class="ml-3">Data Siswa</span></a></li>
-          <li><a href="<?= base_url('ortu/laporan') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-file-report text-xl'></i><span class="ml-3">Laporan Siswa</span></a></li>
-          <li><a href="<?= base_url('ortu/absensi') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-check-square text-xl'></i><span class="ml-3">Absensi</span></a></li>
-          <li><a href="<?= base_url('ortu/komunikasi') ?>"
-              class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
-                class='bx bx-message text-xl'></i><span class="ml-3">Komunikasi</span></a></li>
-          <li><a href="<?= base_url('ortu/pengumuman') ?>"
-              class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
-                class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
-        </ul>
-      </nav>
-    </aside>
+        <aside class="w-64 bg-white h-screen shadow-md flex-shrink-0">
+            <div class="p-6 flex items-center space-x-2 border-b">
+                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
+                    WM</div>
+                <span class="font-semibold text-lg">Wali Murid</span>
+            </div>
+            <nav class="mt-6">
+                <ul class="space-y-2">
+                    <li><a href="<?= base_url('ortu/dashboard') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-dashboard text-xl'></i><span class="ml-3">Dashboard</span></a></li>
+                    <li><a href="<?= base_url('ortu/data_siswa') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-user text-xl'></i><span class="ml-3">Data Siswa</span></a></li>
+                    <li><a href="<?= base_url('ortu/laporan') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-file-report text-xl'></i><span class="ml-3">Laporan Siswa</span></a></li>
+                    <li><a href="<?= base_url('ortu/absensi') ?>"
+                            class="flex items-center px-6 py-3 bg-indigo-50 text-indigo-600 font-medium border-l-4 border-indigo-600"><i
+                                class='bx bx-check-square text-xl'></i><span class="ml-3">Absensi</span></a></li>
+                    <li><a href="<?= base_url('ortu/komunikasi') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-message text-xl'></i><span class="ml-3">Komunikasi</span></a></li>
+                    <li><a href="<?= base_url('ortu/pengumuman') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
+                    <li><a href="<?= base_url('auth/logout') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Logout</span></a></li>
+                </ul>
+            </nav>
+        </aside>
 
         <main class="flex-1 p-6 main-scroll-area">
             <div class="container-fluid p-0">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Absensi Siswa</h1>
-
-                <div class="row g-4">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-indigo-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Peringkat Kelas</h5>
-                                    <i class='bx bx-trophy text-2xl text-indigo-500'></i>
-                                </div>
-                                <h2 class="text-3xl fw-bold mb-0">6 <small class="text-sm text-muted">dari 30
-                                        Siswa</small></h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-red-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Total Pelanggaran</h5>
-                                    <i class='bx bx-error text-2xl text-red-500'></i>
-                                </div>
-                                <h3 class="text-3xl fw-bold mb-0 text-red-600">3</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-amber-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Total Absensi (A/I/S)</h5>
-                                    <i class='bx bx-calendar-x text-2xl text-amber-500'></i>
-                                </div>
-                                <?php
-                                $tidak_hadir_count = 0;
-                                if (!empty($absensi)) {
-                                    foreach ($absensi as $row) {
-                                        if (strtolower($row->status) !== 'hadir') {
-                                            $tidak_hadir_count++;
-                                        }
-                                    }
-                                }
-                                ?>
-                                <h3 class="text-3xl fw-bold mb-0 text-amber-600"><?= $tidak_hadir_count; ?></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="mt-6">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4"><i
@@ -143,7 +99,8 @@
                                                             class="badge bg-secondary-subtle text-secondary fw-bold"><?= htmlspecialchars($row->kelas_id); ?></span>
                                                     </td>
                                                     <td class="text-sm text-muted">
-                                                        <?= date('d M Y', strtotime($row->tanggal)); ?></td>
+                                                        <?= date('d M Y', strtotime($row->tanggal)); ?>
+                                                    </td>
                                                     <td class="text-center">
                                                         <?php
                                                         $status = strtolower($row->status);
@@ -158,7 +115,7 @@
                                                         ];
 
                                                         // Ambil class berdasarkan status, jika tidak ada gunakan default
-                                                        $badge_class = $badge_classes[$status] ?? 'bg-secondary';?>
+                                                        $badge_class = $badge_classes[$status] ?? 'bg-secondary'; ?>
                                                         <span
                                                             class="badge <?= $badge_class ?> fw-semibold p-2 rounded-pill shadow-sm">
                                                             <?= $status_display; ?>
@@ -166,7 +123,8 @@
 
                                                     </td>
                                                     <td class="text-sm fst-italic text-gray-600">
-                                                        <?= htmlspecialchars($row->keterangan ?: '-'); ?></td>
+                                                        <?= htmlspecialchars($row->keterangan ?: '-'); ?>
+                                                    </td>
                                                     <td class="text-center text-sm">
                                                         <?= ($row->jenis_kelamin == 'L') ? '<i class="bi bi-gender-male text-primary"></i>' : '<i class="bi bi-gender-female text-danger"></i>'; ?>
                                                     </td>

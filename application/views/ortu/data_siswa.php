@@ -63,6 +63,9 @@
                     <li><a href="<?= base_url('ortu/pengumuman') ?>"
                             class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
                                 class='bx bx-megaphone text-xl'></i><span class="ml-3">Pengumuman</span></a></li>
+                    <li><a href="<?= base_url('auth/logout') ?>"
+                            class="flex items-center px-6 py-3 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"><i
+                                class='bx bx-megaphone text-xl'></i><span class="ml-3">Logout</span></a></li>
                 </ul>
             </nav>
         </aside>
@@ -74,43 +77,6 @@
                 <h1 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
                     <i class="bi bi-person-lines-fill text-indigo-600 me-3"></i> Data Siswa
                 </h1>
-
-                <!-- 3 Kotak Informasi -->
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-indigo-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Peringkat</h5>
-                                    <i class='bx bx-trophy text-2xl text-indigo-500'></i>
-                                </div>
-                                <h2 class="text-3xl fw-bold mb-0">6</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-red-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Pelanggaran</h5>
-                                    <i class='bx bx-error text-2xl text-red-500'></i>
-                                </div>
-                                <h3 class="text-2xl fw-bold mb-0 text-red-600">3</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-start border-4 border-amber-500">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <h5 class="text-muted mb-1">Absensi (A/I/S)</h5>
-                                    <i class='bx bx-calendar-x text-2xl text-amber-500'></i>
-                                </div>
-                                <h3 class="text-2xl fw-bold mb-0 text-amber-600">1</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- TABEL DATA SISWA -->
                 <div class="card border-0 shadow-lg">
