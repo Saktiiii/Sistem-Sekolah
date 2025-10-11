@@ -78,116 +78,39 @@
                     <i class="bi bi-person-lines-fill text-indigo-600 me-3"></i> Data Siswa
                 </h1>
 
-                <!-- TABEL DATA SISWA -->
-                <div class="card border-0 shadow-lg">
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="bg-indigo-600 text-white">
-                                    <tr>
-                                        <th class="py-3">NIS</th>
-                                        <th class="py-3">Nama</th>
-                                        <th class="py-3">Kelas</th>
-                                        <th class="py-3">Jurusan</th>
-                                        <th class="py-3">Jenis Kelamin</th>
-                                        <th class="py-3">Alamat</th>
-                                        <th class="py-3 text-center">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if (!empty($siswa)): ?>
-                                        <?php foreach ($siswa as $row): ?>
-                                            <tr class="border-b hover:bg-indigo-50 transition">
-                                                <td><?= htmlspecialchars($row->nis); ?></td>
-                                                <td class="fw-semibold text-indigo-700"><?= htmlspecialchars($row->nama); ?>
-                                                </td>
-                                                <td><span
-                                                        class="badge bg-secondary-subtle text-secondary fw-bold"><?= htmlspecialchars($row->kelas); ?></span>
-                                                </td>
-                                                <td><?= htmlspecialchars($row->jurusan); ?></td>
-                                                <td>
-                                                    <?php if ($row->jenis_kelamin == 'L'): ?>
-                                                        <span class="badge bg-primary"><i class="bi bi-gender-male"></i>
-                                                            Laki-laki</span>
-                                                    <?php else: ?>
-                                                        <span class="badge bg-pink-500 text-white"><i
-                                                                class="bi bi-gender-female"></i> Perempuan</span>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td><?= htmlspecialchars($row->alamat); ?></td>
-                                                <td class="text-center">
-                                                    <a href="<?= site_url('ortu/detail_siswa/' . $row->nis) ?>"
-                                                        class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                                        <i class="bi bi-eye"></i> Detail
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <tr>
-                                            <td colspan="7" class="text-center text-muted fst-italic py-4">
-                                                <i class="bi bi-info-circle me-2"></i> Data siswa tidak ditemukan.
-                                            </td>
-                                        </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
+                <?php if (!empty($siswa)): ?>
+                    <div class="card border-0 shadow-lg mb-6">
+                        <div class="card-body p-6">
+                            <h2 class="text-2xl fw-bold text-indigo-700 mb-4"><?= htmlspecialchars($siswa->nama); ?></h2>
+
+                            <div class="mb-3"><span class="fw-semibold text-gray-600">NIS:</span>
+                                <?= htmlspecialchars($siswa->nis); ?></div>
+                            <div class="mb-3"><span class="fw-semibold text-gray-600">Kelas:</span> <span
+                                    class="badge bg-secondary-subtle text-secondary fw-bold"><?= htmlspecialchars($siswa->kelas); ?></span>
+                            </div>
+                            <div class="mb-3"><span class="fw-semibold text-gray-600">Jurusan:</span>
+                                <?= htmlspecialchars($siswa->jurusan); ?></div>
+                            <div class="mb-3"><span class="fw-semibold text-gray-600">Jenis Kelamin:</span>
+                                <?php if ($siswa->jenis_kelamin == 'L'): ?>
+                                    <span class="badge bg-primary"><i class="bi bi-gender-male"></i> Laki-laki</span>
+                                <?php else: ?>
+                                    <span class="badge bg-pink-500 text-white"><i class="bi bi-gender-female"></i>
+                                        Perempuan</span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="mb-3"><span class="fw-semibold text-gray-600">Alamat:</span>
+                                <?= htmlspecialchars($siswa->alamat); ?></div>
                         </div>
                     </div>
-                </div>
+                <?php else: ?>
+                    <div class="text-center text-muted fst-italic py-6">
+                        <i class="bi bi-info-circle me-2"></i> Data siswa tidak ditemukan.
+                    </div>
+                <?php endif; ?>
 
-                <div class="pb-5"></div>
             </div>
         </main>
 
-        <!-- ASIDE -->
-        <aside class="w-80 bg-white h-screen shadow-md p-6 flex-shrink-0 overflow-y-auto">
-            <div class="flex flex-col items-center border-b pb-4 mb-4">
-                <img src="<?= base_url('assets/profile1.jpg'); ?>"
-                    class="w-20 h-20 rounded-full object-cover border-4 border-indigo-100 shadow-md"
-                    alt="Profile Picture">
-                <h2 class="mt-3 font-bold text-xl text-gray-800">Silvan Vanness</h2>
-                <p class="text-gray-500 text-sm">NIS: 29/9022</p>
-            </div>
-
-            <div class="mt-4">
-                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-user-circle mr-2'></i>
-                    Informasi Pribadi</h3>
-                <ul class="text-sm text-gray-700 space-y-1">
-                    <li class="flex justify-between"><strong>Nama:</strong> <span>Jhon Smith</span></li>
-                    <li class="flex justify-between"><strong>Tgl Lahir:</strong> <span>3 Agustus 2000</span></li>
-                    <li class="flex justify-between"><strong>Gender:</strong> <span>Laki-laki</span></li>
-                    <li class="flex justify-between"><strong>Agama:</strong> <span>Islam</span></li>
-                    <li class="mt-2 text-xs text-gray-500 border-t pt-2">Alamat: Kembang RT 01 RW 06, Karanganyar</li>
-                </ul>
-            </div>
-
-            <div class="mt-6 border-t pt-4">
-                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-book-content mr-2'></i>
-                    Informasi Akademik</h3>
-                <ul class="text-sm text-gray-700 space-y-1">
-                    <li class="flex justify-between"><strong>Sekolah:</strong> <span>SMK Negeri 2 Karanganyar</span>
-                    </li>
-                    <li class="flex justify-between"><strong>NIS:</strong> <span>9999 / 0084354677</span></li>
-                    <li class="flex justify-between"><strong>Kelas:</strong> <span class="font-bold text-indigo-500">XI
-                            RB</span>
-                    </li>
-                    <li class="flex justify-between"><strong>Tahun Masuk:</strong> <span>2023</span></li>
-                    <li class="flex justify-between"><strong>Tahun Lulus:</strong> <span><i>Belum lulus</i></span></li>
-                    <li class="flex justify-between"><strong>Wali Kelas:</strong> <span>Dwi Nuryani</span></li>
-                </ul>
-            </div>
-
-            <div class="mt-6 border-t pt-4">
-                <h3 class="text-indigo-600 font-semibold mb-2 flex items-center"><i class='bx bx-group mr-2'></i>
-                    Informasi
-                    Orang Tua/Wali</h3>
-                <ul class="text-sm text-gray-700 space-y-1">
-                    <li class="flex justify-between"><strong>Ayah:</strong> <span>Edi (Pedagang)</span></li>
-                    <li class="flex justify-between"><strong>Ibu:</strong> <span>Eni (IRT)</span></li>
-                </ul>
-            </div>
-        </aside>
 
     </div>
 </body>

@@ -49,7 +49,7 @@ class Ortu_model extends CI_Model
     }
 
 
-    public function get_all()
+    public function get_all($users_id)
     {
         $this->db->select('
         siswa.nis,
@@ -62,7 +62,9 @@ class Ortu_model extends CI_Model
         $this->db->from('siswa');
         $this->db->join('kelas', 'kelas.id = siswa.kelas_id', 'left');
         $this->db->join('jurusan', 'jurusan.id = kelas.jurusan_id', 'left');
-        return $this->db->get()->result();
+        $this->db->join('orang_tua', 'orang_tua.siswa_id = siswa.id', 'inner');
+        $this->db->where('orang_tua.users_id', $users_id); // filter berdasarkan orang tua login
+        return $this->db->get()->row();
     }
 
     public function get_siswa_bermasalah()
@@ -97,6 +99,18 @@ class Ortu_model extends CI_Model
         $this->db->order_by('presensi.tanggal', 'DESC');
         return $this->db->get()->result();
     }
+    public function get_absensi_anak($users_id)
+    {
+        $this->db->select('presensi.*, siswa.nama, siswa.nis, siswa.jenis_kelamin, kelas.nama_kelas AS kelas');
+        $this->db->from('presensi');
+        $this->db->join('siswa', 'siswa.id = presensi.siswa_id', 'inner');
+        $this->db->join('kelas', 'kelas.id = siswa.kelas_id', 'left');
+        $this->db->join('orang_tua', 'orang_tua.siswa_id = siswa.id', 'inner');
+        $this->db->where('orang_tua.users_id', $users_id); // filter anak ortu login
+        $this->db->order_by('presensi.tanggal', 'DESC');
+        return $this->db->get()->result();
+    }
+
     // Ambil semua pesan antara orang tua dan wali kelas
     public function getPesan($orang_tua_id, $guru_id, $siswa_id)
     {
